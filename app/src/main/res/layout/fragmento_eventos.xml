@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_nom_esc_evento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/letraPrimary"
+        android:orientation="vertical">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/letraPrimary"
+            android:rowCount="1"
+            android:columnCount="4">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/imgAlumno_eventos"
+                android:contentDescription="Alumno" />
+
+            <TextView
+                android:id="@+id/txtNombreAlumno_eventos"
+                android:layout_width="125dp"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="11sp"
+                android:textColor="@color/LetraSecondary" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_row="0"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/imgEcuela_eventos"
+                android:contentDescription="Alumno" />
+
+            <TextView
+                android:id="@+id/txtEscuela_eventos"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:layout_row="0"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="11sp"
+                android:textColor="@color/LetraSecondary" />
+
+        </GridLayout>
+    </LinearLayout>
+
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeRefreshEventos"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_nom_esc_evento">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recicladorEventos"
+        android:layout_below="@+id/layout_nom_esc_evento"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabEventos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/reload"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="300dip"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/vacioe"/>
+
+</RelativeLayout>

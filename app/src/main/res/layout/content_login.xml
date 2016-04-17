@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#353535"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Login.LoginActivity"
+    tools:showIn="@layout/activity_login">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondologin2" />
+
+    <EditText
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:padding="15dp"
+        android:textColor="@color/letraPrimary"
+        android:background="@drawable/style_edittext"
+        android:id="@+id/edtuser"
+        android:hint="@string/txtUser"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView2" />
+
+    <EditText
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:padding="15dp"
+        android:textColor="@color/letraPrimary"
+        android:background="@drawable/style_edittext"
+        android:id="@+id/edtpass"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/txtPass"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/edtuser"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtLogin"
+        android:drawableLeft="@mipmap/img_entrar"
+        android:paddingRight="15dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/btnlogin"
+        android:textColor="#ffffff"
+        android:background="@drawable/style_button"
+        android:layout_below="@+id/edtpass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_action_bar_splitter"
+        android:layout_above="@+id/btnregistro"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnregistro"
+        android:id="@+id/btnregistro"
+        android:textColor="#ffffff"
+        android:background="#3CFFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="55dip"
+        android:id="@+id/imageView2"
+        android:src="@drawable/logo_login"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+<!--
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtOlvideLogin"
+        android:textSize="12sp"
+        android:textColor="#FFFFFF"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/btnlogin"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:background="@android:color/transparent"
+        android:id="@+id/btnRecuperaCuenta"
+        android:text="@string/btnOlvideLogin"
+        android:textSize="12sp"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
+        -->
+
+</RelativeLayout>

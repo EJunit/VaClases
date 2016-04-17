@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#343434">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitStart"
+        android:src="@drawable/fondologin2" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="70dip"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:src="@drawable/logo_login"
+        android:id="@+id/loguio"/>
+
+    <EditText
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:hint="@string/old_pass"
+        android:id="@+id/edtold_pass"
+        android:padding="15dp"
+        android:background="@drawable/style_edittext"
+        android:layout_below="@+id/loguio"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp" />
+
+    <EditText
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:hint="@string/new_pass"
+        android:id="@+id/edt_new_pass"
+        android:padding="15dp"
+        android:background="@drawable/style_edittext"
+        android:layout_below="@id/edtold_pass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:hint="@string/cofirm_pass"
+        android:id="@+id/edt_confirm_pass"
+        android:padding="15dp"
+        android:background="@drawable/style_edittext"
+        android:layout_below="@id/edt_new_pass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnCambioPass"
+        android:id="@+id/btnCambioPass"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/style_button"
+        android:layout_marginTop="55dp"
+        android:layout_below="@+id/edt_confirm_pass"
+        android:layout_alignRight="@+id/edt_confirm_pass"
+        android:layout_alignEnd="@+id/edt_confirm_pass" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:id="@+id/btnCancelPass"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/style_button"
+        android:layout_alignBottom="@+id/btnCambioPass"
+        android:layout_alignLeft="@+id/edt_confirm_pass"
+        android:layout_alignStart="@+id/edt_confirm_pass" />
+
+</RelativeLayout>

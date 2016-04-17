@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/intro_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EVENTOS"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_gravity="top|center"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="32dp"
+            android:textSize="28sp"/>
+
+        <ImageView
+            android:id="@+id/imgIntro4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@drawable/intro_4"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jamas te olvidaras las fechas de las actividades de la institucion de tu hijo(a)."
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_gravity="bottom|center"
+            android:maxEms="18"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="45dp"
+            android:textSize="20sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comenzar"
+            android:textColor="@color/cardview_light_background"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/btnDone"
+            android:layout_gravity="right|bottom" />
+
+    </FrameLayout>
+
+</FrameLayout>

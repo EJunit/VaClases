@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sombra"
+        android:id="@+id/relativeLayout">
+
+        <ImageView
+            android:layout_width="100dip"
+            android:layout_height="55dip"
+            android:id="@+id/imageView3"
+            android:src="@drawable/validacion_check"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/imgVaClases" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/txtTituloValidacionClase"
+            android:id="@+id/txtTitulo_dialog_val"
+            android:textColor="@color/letraPrimary"
+            android:layout_centerVertical="true"
+            android:paddingLeft="0dp"
+            android:paddingRight="10dp"
+            android:layout_toRightOf="@id/imageView3"
+            android:layout_toEndOf="@id/imageView3" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="210dip"
+        android:id="@+id/ScrollValidacionClase"
+        android:padding="5dp"
+        android:layout_below="@+id/relativeLayout">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/LinearValidacionClase">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnValidar"
+        android:id="@+id/btnVal_val"
+        android:background="@color/colorAccent"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/ScrollValidacionClase"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnCancelar"
+        android:id="@+id/btnVal_cance"
+        android:background="@color/letraPrimary"
+        android:textColor="#FFFFFF"
+        android:layout_marginRight="20dp"
+        android:layout_alignTop="@id/btnVal_val"
+        android:layout_toLeftOf="@id/btnVal_val"
+        android:layout_toStartOf="@id/btnVal_val" />
+
+    <!--<ImageView
+        android:layout_width="150dip"
+        android:layout_height="130dip"
+        android:id="@+id/img_kids_val"
+        android:src="@drawable/kids2"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="15dp"
+        android:contentDescription="@string/imgVaClases"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />-->
+
+</RelativeLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="7dp"
+    card_view:cardCornerRadius="3dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    card_view:cardUseCompatPadding="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="?attr/selectableItemBackground"
+        android:minHeight="?android:attr/listPreferredItemHeight">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sombra"
+            android:id="@+id/linearLayout">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/evento"
+                android:id="@+id/imgMsjEvento"
+                android:contentDescription="Alumno" />
+
+            <TextView
+                android:id="@+id/txtactividad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:textColor="@color/letraPrimary"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtDescEvento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="15sp"
+            android:textColor="@color/letraPrimary"
+            android:layout_gravity="clip_horizontal"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:layout_below="@+id/linearLayout"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="3dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/sombra"
+            android:id="@+id/linearLayout2"
+            android:layout_below="@+id/txtDescEvento"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/txtfechaEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="12sp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ImageView
+                android:layout_width="24sp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@mipmap/fecha"
+                android:id="@+id/imgCalendarioEvento"
+                android:contentDescription="Alumno" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+

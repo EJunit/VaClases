@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/RelativeDialogEncuesta"
+    android:background="#FFFFFF">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sombra"
+        android:id="@+id/relativeLayout">
+
+
+        <ImageView
+            android:layout_width="100dip"
+            android:layout_height="55dip"
+            android:id="@+id/imageViewcheck_pro"
+            android:src="@drawable/validacion_check"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/txtImgEnciesta" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Ver el estatus de..."
+            android:id="@+id/txtTitulo_dialog_hijo"
+            android:textColor="@color/letraPrimary"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageViewcheck_pro"
+            android:layout_toEndOf="@id/imageViewcheck_pro" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/relativeLayout"
+        android:id="@+id/LinearHijo"
+        android:padding="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="125dip"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/btn_hijos"
+        android:background="@color/colorAccent"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/LinearHijo"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"/>
+
+
+</RelativeLayout>

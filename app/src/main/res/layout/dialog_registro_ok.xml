@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/RelativeDialogEncuesta"
+    android:background="#FFFFFF">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sombra"
+        android:id="@+id/relativeLayout">
+
+
+        <ImageView
+            android:layout_width="100dip"
+            android:layout_height="55dip"
+            android:id="@+id/imageViewcheck_pro"
+            android:src="@drawable/validacion_check"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/txtImgEnciesta" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Registro exitoso a la plataforma"
+            android:id="@+id/txtTitulo_dialog_val_pro"
+            android:textColor="@color/letraPrimary"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageViewcheck_pro"
+            android:layout_toEndOf="@id/imageViewcheck_pro" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Bienvenido a la plataforma VaClases, para poder ingresar en un futuro, su usuario sera su número de identidad, su password por default es su número telefónico, podra cambiarlo dentro de la plataforma si desea."
+        android:id="@+id/txtBienvenida"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="20dp"
+        android:layout_below="@id/relativeLayout"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/btn_ok"
+        android:background="@color/colorAccent"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/txtBienvenida"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"/>
+
+</RelativeLayout>

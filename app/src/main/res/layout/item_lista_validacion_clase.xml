@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/card_view"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardUseCompatPadding="true"
+    android:layout_marginTop="7dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_validacion"
+            android:id="@+id/imgAlumno"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Ayúdanos a validar que días recibieron clases"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/letraPrimary"
+            android:id="@+id/txtValidacionClase"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/imgAlumno"
+            android:layout_toEndOf="@id/imgAlumno" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/sombra"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/imgAlumno"
+            android:layout_below="@id/txtValidacionClase"
+            android:id="@+id/view_val" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="fecha1"
+            android:id="@+id/txtfecha1"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/view_val"
+            android:layout_toRightOf="@id/imgAlumno"
+            android:layout_toEndOf="@id/imgAlumno" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="al"
+            android:id="@+id/txtal_val"
+            android:layout_alignTop="@id/txtfecha1"
+            android:textColor="@color/colorAccent"
+            android:layout_toEndOf="@id/txtfecha1"
+            android:paddingLeft="5dp"
+            android:layout_toRightOf="@id/txtfecha1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="fecha2"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/txtfecha2"
+            android:layout_alignTop="@id/txtal_val"
+            android:layout_toRightOf="@id/txtal_val"
+            android:layout_toEndOf="@id/txtal_val"
+            android:paddingLeft="5dp"
+            android:layout_marginBottom="5dp"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
