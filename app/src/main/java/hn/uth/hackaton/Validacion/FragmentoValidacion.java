@@ -210,20 +210,18 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         try {
             if (response.getString("status").equals("exito")) {
 
+                JSONObject centro_api =response.getJSONObject("centro_educativo");
                 JSONArray dataValidaciones = response.getJSONArray("data");
                 String control;
-
-              //  if(dataValidaciones.length()>0) {
 
                     for (int a = 0; a < dataValidaciones.length(); a++) {
 
                         JSONObject infoJosn = dataValidaciones.getJSONObject(a);
-                        JSONObject infoCentro = infoJosn.getJSONObject("centro_educativo");
                         try {
 
-                            if(infoCentro.getString("codigo").equals(esc_selec)) {
+                            if(centro_api.getString("codigo").equals(esc_selec)) {
                                 control = infoJosn.getString("tipo");
-
+                                //Log.i("tipo",control);
                                 if (control.equals("1")) {
                                     itemsAux.add(new Validacion(infoJosn.getString("fecha_inicio"), infoJosn.getString("fecha_fin"), infoJosn.getString("dias"),
                                             Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("id")));
