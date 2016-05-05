@@ -88,7 +88,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
         prefsValidacion = this.getActivity().getSharedPreferences("Validacion", Context.MODE_PRIVATE);
         editosValidacion = prefsValidacion.edit();
-        esc_selec = loadEscuelaSelect();
+        esc_selec = loadEscuela();
 
         conf = new Preferencias(getContext());
 
@@ -219,7 +219,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
                         JSONObject infoJosn = dataValidaciones.getJSONObject(a);
                         try {
 
-                            if(centro_api.getString("codigo").equals(esc_selec)) {
+                            if(infoJosn.getString("type_name").equals(esc_selec)) {
                                 control = infoJosn.getString("tipo");
                                 //Log.i("tipo",control);
                                 if (control.equals("1")) {

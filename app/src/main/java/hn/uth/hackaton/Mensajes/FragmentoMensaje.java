@@ -65,10 +65,11 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_escuela", " ");
     }
-    private String loadEscuelaSelect() {
+    private String loadPadreSelect() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-        return prefs.getString("escuela_select", " ");
+        return prefs.getString("padre_select", " ");
     }
+
 
     public FragmentoMensaje() {
     }
@@ -81,9 +82,11 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
        View view = inflater.inflate(R.layout.fragmento_mensaje, container, false);
         conf = new Preferencias(getContext());
 
+        Log.i("nombre padre",loadPadreSelect());
+
         prefsMensajes = this.getActivity().getSharedPreferences("Mensajes", Context.MODE_PRIVATE);
         editorMensajes = prefsMensajes.edit();
-        esc_selec = loadEscuelaSelect();
+        esc_selec = loadEscuela();
 
         Typeface roboto_condensed = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Condensed.ttf");
 
@@ -218,10 +221,10 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
                         try {
                             JSONObject infoJosn = dataMensajes.getJSONObject(a);
 
-                            if(infoJosn.getString("encargado_id").equals("null")){
-                                JSONObject infoCentro = infoJosn.getJSONObject("centro_educativo");
+                           // if(infoJosn.getString("encargado_id").equals("null")){
+                                //JSONObject infoCentro = infoJosn.getJSONObject("centro_educativo");
 
-                                if(infoCentro.getString("codigo").equals(esc_selec)){
+                                if(infoJosn.getString("type_name").equals(loadPadreSelect()) || infoJosn.getString("type_name").equals(esc_selec)){
 
                                     info.setTitulo(infoJosn.getString("titulo"));
                                     info.setMensaje(infoJosn.getString("mensaje"));
@@ -232,7 +235,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
                                     adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
                                     //imgVacio.setBackgroundResource(R.drawable.exito);
                                 }
-                            }else{
+                            /*}else{
 
                                 info.setTitulo(infoJosn.getString("titulo"));
                                 info.setMensaje(infoJosn.getString("mensaje"));
@@ -243,7 +246,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
                                 adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
 
                                // imgVacio.setBackgroundResource(R.drawable.exito);
-                            }
+                            }*/
 
                         } catch (JSONException ignored) {
                         }

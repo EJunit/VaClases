@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.getString("status").equals("exito")){
 
                     JSONObject encargado = response.getJSONObject("encargado");
-
+                    setPadreSelect(encargado.getString("nombre"));
                     JSONArray infoAlumno = encargado.getJSONArray("alumnos");
 
                     for (int a=0;a<infoAlumno.length();a++){
@@ -200,7 +200,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         JSONObject infoJsonEscuela = infoJsonAlumno.getJSONObject("centro_educativo");
                         setNombreEscuela(infoJsonEscuela.getString("nombre"));
-                        setEscuelaSelect(infoJsonEscuela.getString("codigo"));
 
                         JSONObject infoJsonMuni = infoJsonEscuela.getJSONObject("municipio");
 
@@ -228,10 +227,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void setEscuelaSelect(String nombre){
+    private void setPadreSelect(String nombre){
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("escuela_select",nombre);
+        edit.putString("padre_select",nombre);
         edit.apply();
     }
 
