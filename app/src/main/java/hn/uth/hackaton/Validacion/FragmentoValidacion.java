@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import hn.uth.hackaton.Login.LoginActivity;
 import hn.uth.hackaton.Preferencias;
@@ -64,15 +66,18 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
         return prefs.getString("identidad_alumno", " ");
     }
-
     private String loadEscuela() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
         return prefs.getString("nombre_escuela", " ");
     }
+    private String loadDepto() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("departamento",Context.MODE_PRIVATE);
+        return prefs.getString("depto", " ");
+    }
+    private String loadMuni() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("municipio",Context.MODE_PRIVATE);
 
-    private String loadEscuelaSelect() {
-        SharedPreferences prefs = getContext().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-        return prefs.getString("escuela_select", " ");
+        return prefs.getString("muni", " ");
     }
 
     public FragmentoValidacion() {
@@ -89,7 +94,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         prefsValidacion = this.getActivity().getSharedPreferences("Validacion", Context.MODE_PRIVATE);
         editosValidacion = prefsValidacion.edit();
         esc_selec = loadEscuela();
-
+        Log.i("municipio",loadMuni());
         conf = new Preferencias(getContext());
 
         ImageView img = (ImageView) view.findViewById(R.id.imgAlumno);
@@ -210,18 +215,21 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         try {
             if (response.getString("status").equals("exito")) {
 
-                JSONObject centro_api =response.getJSONObject("centro_educativo");
                 JSONArray dataValidaciones = response.getJSONArray("data");
                 String control;
+
 
                     for (int a = 0; a < dataValidaciones.length(); a++) {
 
                         JSONObject infoJosn = dataValidaciones.getJSONObject(a);
-                        try {
 
-                            if(infoJosn.getString("type_name").equals(esc_selec)) {
+                        try {
+                          /*  */
+
+                        if(infoJosn.getString("confirma").equals("0" )){
+                            if(infoJosn.getString("type_name").equals(esc_selec)|| infoJosn.getString("type_name").equals(loadDepto())
+                                   || infoJosn.getString("type_name").equals("Todo el Pais")) {
                                 control = infoJosn.getString("tipo");
-                                //Log.i("tipo",control);
                                 if (control.equals("1")) {
                                     itemsAux.add(new Validacion(infoJosn.getString("fecha_inicio"), infoJosn.getString("fecha_fin"), infoJosn.getString("dias"),
                                             Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("id")));
@@ -230,11 +238,21 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
                                             infoJosn.getString("id"), infoJosn.getString("mensajes")));
                                 }
 
-                               // imgVaciov.setBackgroundResource(R.drawable.exito);
                                 adaptador = new NewAdapterValidaciones(itemsAux, getActivity());
+                            }else if(!infoJosn.getString("type_name").equals(esc_selec)|| !infoJosn.getString("type_name").equals(loadDepto())
+                                    || !infoJosn.getString("type_name").equals("Todo el Pais")){
 
+                                int tamaño_depto = loadMuni().length();
+
+                                String as =infoJosn.getString("type_name");
+                                String muni = as.substring(0,tamaño_depto);
+
+                                if (muni.equals(loadMuni())){
+                                    itemsAux.add(new Validacion(Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("fecha_inicio"),
+                                            infoJosn.getString("id"), infoJosn.getString("mensajes")));
+                                }
                             }
-
+                        }
                         } catch (JSONException ignored) {
                         }
                     }//termina el for

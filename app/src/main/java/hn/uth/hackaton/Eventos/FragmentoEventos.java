@@ -58,19 +58,14 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
         return prefs.getString("nombre_alumno", " ");
     }
-    private String loadIdentidadAlumno() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
-        return prefs.getString("identidad_alumno", " ");
+    private String loadPadreSelect() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
+        return prefs.getString("padre_select", " ");
     }
     private String loadEscuela() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
         return prefs.getString("nombre_escuela", " ");
     }
-    private String loadEscuelaSelect() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-        return prefs.getString("escuela_select", " ");
-    }
-
     public FragmentoEventos() {
     }
 
@@ -83,10 +78,9 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
 
         prefsEventos = this.getActivity().getSharedPreferences("Eventos", Context.MODE_PRIVATE);
         editorEvetos = prefsEventos.edit();
-        esc_selec = loadEscuelaSelect();
+        esc_selec = loadEscuela();
 
         conf = new Preferencias(getContext());
-        Log.i("identidad del login", loadIdentidadAlumno());
 
         ImageView img_alumno = (ImageView) view.findViewById(R.id.imgAlumno_eventos);
         TextView nombreAlumno = (TextView) view.findViewById(R.id.txtNombreAlumno_eventos);
@@ -153,7 +147,6 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
             JsonObjectRequest req2 = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.i("response eventos",response.toString());
                         editorEvetos.putString("f", response.toString());
                         editorEvetos.apply();
                         data = new ArrayList<>();
@@ -210,12 +203,12 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
                     for (int a = 0; a < dataEventos.length(); a++) {
 
                         Eventos info = new Eventos();
-
+//
                         JSONObject infoJosn = dataEventos.getJSONObject(a);
-                        JSONObject infoCentro = infoJosn.getJSONObject("centro_educativo");
+                        //JSONObject infoCentro = infoJosn.getJSONObject("centro_educativo");
                         try {
 
-                            if(infoCentro.getString("codigo").equals(esc_selec)) {
+                            if(infoJosn.getString("type_name").equals(esc_selec)) {
 
                                 info.setTitulo_evento(infoJosn.getString("evento_nombre"));
                                 info.setDescripcion_evento(infoJosn.getString("evento_descripcion"));
@@ -236,7 +229,7 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
                     imgVacioe.setPadding(25, 25, 25, 25);
                 }
                 reciclador.setAdapter(adaptador);
-            }else if(response.getString("status").equals("vacio")){
+            }   else if(response.getString("status").equals("vacio")){
                 imgVacioe.setBackgroundResource(R.drawable.vacio);
                 imgVacioe.setPadding(25,25,25,25);
             }

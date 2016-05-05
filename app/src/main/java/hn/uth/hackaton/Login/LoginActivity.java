@@ -22,8 +22,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,18 +60,22 @@ public class LoginActivity extends AppCompatActivity {
         //Typeface robotoSlab_bold = Typeface.createFromAsset(this.getAssets(), "fonts/RobotoSlab-Bold.ttf");
 
         user = (EditText) findViewById(R.id.edtuser);
+        assert user != null;
         user.setTypeface(Roboto_Light);
         pass = (EditText) findViewById(R.id.edtpass);
+        assert pass != null;
         pass.setTypeface(Roboto_Light);
        /* TextView r = (TextView) findViewById(R.id.textView3);
         r.setTypeface(Roboto_Light);*/
 
         Button logIn = (Button) findViewById(R.id.btnlogin);
-       // Button btnRecuCuenta = (Button) findViewById(R.id.btnRecuperaCuenta);
+        // Button btnRecuCuenta = (Button) findViewById(R.id.btnRecuperaCuenta);
         Button btnRegistrate = (Button) findViewById(R.id.btnregistro);
 
+        assert logIn != null;
         logIn.setTypeface(Roboto_Light);
         //btnRecuCuenta.setTypeface(robotoSlab_bold);
+        assert btnRegistrate != null;
         btnRegistrate.setTypeface(Roboto_Light);
 
         logIn.setOnClickListener(
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         );
 
         findViewById(R.id.btnregistro).setOnClickListener(new View.OnClickListener() {
+            @SuppressWarnings("ConstantConditions")
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegistroActivity.class));
@@ -99,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });*/
 
-        new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void userLogin() {
@@ -113,13 +115,13 @@ public class LoginActivity extends AppCompatActivity {
 
             dialog = ProgressDialog.show(this, "", "Cargando contenido");
 
-            try{
+            try {
 
-                String KEY = password +username;
+                String KEY = password + username;
                 byte[] data = KEY.getBytes("UTF-8");
                 conf.setCedulaPadre(username);
                 base64 = Base64.encodeToString(data, Base64.DEFAULT);
-                url = "http://vaclases.netsti.com/login/"+username+"?password="+base64;
+                url = "http://vaclases.netsti.com/login/" + username + "?password=" + base64;
                 conf.setTokken(base64);
 
             } catch (UnsupportedEncodingException e) {
@@ -136,14 +138,14 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     dialog.cancel();
-                    Toast.makeText(getApplicationContext(),"Ocurrio un problema de comunicacion, Intente de nuevo",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Ocurrio un problema de comunicacion, Intente de nuevo", Toast.LENGTH_SHORT).show();
                 }
-            }){
+            }) {
 
                 @Override
                 public Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                     Map headers = response.headers;
-                    Object cookie =  headers.get("Set-Cookie");
+                    Object cookie = headers.get("Set-Cookie");
                     StringTokenizer tokens = new StringTokenizer(cookie.toString(), ";");
                     String first = tokens.nextToken();
                     //guargar preferencia
@@ -181,18 +183,18 @@ public class LoginActivity extends AppCompatActivity {
         this.finish();
     }
 
-    public void parser (JSONObject response){
+    public void parser(JSONObject response) {
 
         if (response.length() > 0) {
 
             try {
-                if (response.getString("status").equals("exito")){
+                if (response.getString("status").equals("exito")) {
 
                     JSONObject encargado = response.getJSONObject("encargado");
                     setPadreSelect(encargado.getString("nombre"));
                     JSONArray infoAlumno = encargado.getJSONArray("alumnos");
 
-                    for (int a=0;a<infoAlumno.length();a++){
+                    for (int a = 0; a < infoAlumno.length(); a++) {
 
                         JSONObject infoJsonAlumno = infoAlumno.getJSONObject(a);
                         setNombreAlumno(infoJsonAlumno.getString("nombre"));
@@ -212,12 +214,12 @@ public class LoginActivity extends AppCompatActivity {
                     openProfile();
 
                     dialog.cancel();
-                    Toast.makeText(getApplicationContext(),"Sesion Iniciada",Toast.LENGTH_SHORT).show();
-                }else if(response.getString("status").equals("error")){
+                    Toast.makeText(getApplicationContext(), "Sesion Iniciada", Toast.LENGTH_SHORT).show();
+                } else if (response.getString("status").equals("error")) {
                     JSONArray error = response.getJSONArray("mensajes");
 
                     dialog.cancel();
-                    Toast.makeText(getApplicationContext(),error.get(0).toString(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), error.get(0).toString(), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -227,52 +229,53 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void setPadreSelect(String nombre){
+    private void setPadreSelect(String nombre) {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("padre_select",nombre);
+        edit.putString("padre_select", nombre);
         edit.apply();
     }
 
-    private void setNombreAlumno(String nombre){
+    private void setNombreAlumno(String nombre) {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("nombre_alumno",nombre);
+        edit.putString("nombre_alumno", nombre);
         edit.apply();
     }
 
-    private void setIdentidadAlumno(String nombre){
+    private void setIdentidadAlumno(String nombre) {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("identidad_alumno",nombre);
+        edit.putString("identidad_alumno", nombre);
         edit.apply();
     }
 
-    private void setNombreDepartamentoEscuela(String depto){
-        SharedPreferences prefs = this.getSharedPreferences("departamento",Context.MODE_PRIVATE);
+    private void setNombreDepartamentoEscuela(String depto) {
+        SharedPreferences prefs = this.getSharedPreferences("departamento", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("depto", depto);
         edit.apply();
     }
 
-    private void setNombreMunicipio(String municipio){
-        SharedPreferences prefs = this.getSharedPreferences("municipio",Context.MODE_PRIVATE);
+    private void setNombreMunicipio(String municipio) {
+        SharedPreferences prefs = this.getSharedPreferences("municipio", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("muni", municipio);
         edit.apply();
     }
 
-    private void setNombreEscuela(String nombre){
-        SharedPreferences prefs = this.getSharedPreferences("alumno",Context.MODE_PRIVATE);
+    private void setNombreEscuela(String nombre) {
+        SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("nombre_escuela", nombre);
         edit.apply();
     }
 
-    private void setCookie(String cookie){
-        SharedPreferences prefs = this.getSharedPreferences("Cookies",Context.MODE_PRIVATE);
+    private void setCookie(String cookie) {
+        SharedPreferences prefs = this.getSharedPreferences("Cookies", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("cookie", cookie);
         edit.apply();
     }
+
 }

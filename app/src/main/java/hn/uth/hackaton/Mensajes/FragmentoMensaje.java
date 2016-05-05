@@ -82,8 +82,6 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
        View view = inflater.inflate(R.layout.fragmento_mensaje, container, false);
         conf = new Preferencias(getContext());
 
-        Log.i("nombre padre",loadPadreSelect());
-
         prefsMensajes = this.getActivity().getSharedPreferences("Mensajes", Context.MODE_PRIVATE);
         editorMensajes = prefsMensajes.edit();
         esc_selec = loadEscuela();
