@@ -55,7 +55,7 @@ public class FullScreenRegistro extends DialogFragment {
             // Habilitar el Up Button
             actionBar.setDisplayHomeAsUpEnabled(true);
             // Cambiar icono del Up Button
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_close);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
         }
     }
 

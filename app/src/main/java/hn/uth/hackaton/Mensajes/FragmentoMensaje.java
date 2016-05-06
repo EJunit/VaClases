@@ -94,11 +94,11 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
         ImageView img2 = (ImageView) view.findViewById(R.id.imgAlumno2);
         TextView nombreAlumno2 = (TextView) view.findViewById(R.id.txtNombreAlumno2);
 
-        img.setImageResource(R.mipmap.alumno);
+        img.setImageResource(R.drawable.alumno);
         nombreAlumno.setText(loadNombre());
         nombreAlumno.setTypeface(roboto_condensed);
 
-        img2.setImageResource(R.mipmap.escuela);
+        img2.setImageResource(R.drawable.escuela);
         nombreAlumno2.setText(loadEscuela());
         nombreAlumno2.setTypeface(roboto_condensed);
 

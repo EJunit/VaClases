@@ -115,7 +115,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
                 new AlertDialog.Builder(getContext()).setTitle("Confirmación")
                         .setMessage("¿Deséas confirmar tus respuestas?, no podras cambiarlas luego, recuerda que las las casillas" +
                                 "que no marques, se tomaran como un 'No'.")
-                        .setIcon(R.mipmap.info_dialog)
+                        .setIcon(R.drawable.info_dialog)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             @Override

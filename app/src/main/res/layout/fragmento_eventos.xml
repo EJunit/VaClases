@@ -86,7 +86,7 @@
         android:id="@+id/fabEventos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/reload"
+        android:src="@drawable/reload"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"

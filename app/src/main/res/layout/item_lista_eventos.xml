@@ -28,7 +28,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:src="@mipmap/evento"
+                android:src="@drawable/evento"
                 android:id="@+id/imgMsjEvento"
                 android:contentDescription="Alumno" />
 
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@mipmap/fecha"
+                android:src="@drawable/fecha"
                 android:id="@+id/imgCalendarioEvento"
                 android:contentDescription="Alumno" />
         </LinearLayout>

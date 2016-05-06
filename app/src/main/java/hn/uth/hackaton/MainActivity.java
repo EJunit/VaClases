@@ -21,12 +21,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,12 +62,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        OneSignal.startInit(this).setAutoPromptLocation(true).init();
         conf = new Preferencias(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         assert toolbar != null;
-        toolbar.setLogo(R.mipmap.logo_toolbar);
+        toolbar.setLogo(R.drawable.logo_toolbar);
         toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
@@ -80,6 +83,19 @@ public class MainActivity extends AppCompatActivity {
         channels.add("Honduras");
 
         ParseUtils.registroChannels(channels);
+        //registro de tags
+        JSONObject tags = new JSONObject();
+        try {
+            tags.put("escuela", escuela);
+            tags.put("departamento", depto);
+            tags.put("municipio", muni);
+            tags.put("pais", "Honduras");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OneSignal.sendTags(tags);
+        //fin de registro de tags de OneSignal
 
         ParseUtils.verifyParseConfiguration(this);
 
@@ -214,6 +230,12 @@ public class MainActivity extends AppCompatActivity {
 
         editorAlumno.clear();
         editorAlumno.apply();
+
+        Collection<String> tempList = new ArrayList<>();
+        tempList.add("escuela");
+        tempList.add("departamento");
+        tempList.add("municipio");
+        OneSignal.deleteTags(tempList);
 
         logout();
 

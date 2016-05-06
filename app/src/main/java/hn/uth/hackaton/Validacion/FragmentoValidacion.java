@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import hn.uth.hackaton.Login.LoginActivity;
 import hn.uth.hackaton.Preferencias;
@@ -103,11 +102,11 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         ImageView img2 = (ImageView) view.findViewById(R.id.imgAlumno2);
         TextView nombreAlumno2 = (TextView) view.findViewById(R.id.txtNombreEscuelaVal);
 
-        img.setImageResource(R.mipmap.alumno);
+        img.setImageResource(R.drawable.alumno);
         nombreAlumno.setText(loadNombre());
         nombreAlumno.setTypeface(roboto_condensed);
 
-        img2.setImageResource(R.mipmap.escuela);
+        img2.setImageResource(R.drawable.escuela);
         nombreAlumno2.setText(loadEscuela());
         nombreAlumno2.setTypeface(roboto_condensed);
 

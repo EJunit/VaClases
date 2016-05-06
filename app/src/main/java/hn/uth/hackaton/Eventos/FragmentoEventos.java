@@ -88,11 +88,11 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
         ImageView img_escuela = (ImageView) view.findViewById(R.id.imgEcuela_eventos);
         TextView nombreEscuela_evento = (TextView) view.findViewById(R.id.txtEscuela_eventos);
 
-        img_alumno.setImageResource(R.mipmap.alumno);
+        img_alumno.setImageResource(R.drawable.alumno);
         nombreAlumno.setText(loadNombre());
         nombreAlumno.setTypeface(roboto_condensed);
 
-        img_escuela.setImageResource(R.mipmap.escuela);
+        img_escuela.setImageResource(R.drawable.escuela);
         nombreEscuela_evento.setText(loadEscuela());
         nombreEscuela_evento.setTypeface(roboto_condensed);
 

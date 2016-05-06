@@ -21,7 +21,7 @@
     <item
         android:id="@+id/hijo"
         android:orderInCategory="100"
-        android:icon="@mipmap/ic_action_person"
+        android:icon="@drawable/ic_action_person"
         app:showAsAction="ifRoom"
         android:title="@string/hijo" />
 </menu>
