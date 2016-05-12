@@ -36,8 +36,8 @@ import hn.uth.hackaton.R;
 public class FullScreenRegistro extends DialogFragment {
 
     private EditText edtUsername;
-    private  EditText edtTelefono;
-    private  EditText edtTelefono2;
+    private EditText edtTelefono;
+    private EditText edtTelefono2;
     ProgressDialog dialog;
 
     public FullScreenRegistro() {
@@ -91,7 +91,7 @@ public class FullScreenRegistro extends DialogFragment {
             case R.id.action_save:
                 try {
                     consulta();
-                }catch (Exception ignored){
+                } catch (Exception ignored) {
                     //consulta();
                 }
                 break;
@@ -101,20 +101,20 @@ public class FullScreenRegistro extends DialogFragment {
     }
 
     @SuppressLint("NewApi")
-    public void consulta () {
+    public void consulta() {
 
         final String username = edtUsername.getText().toString().trim();
         final String usertel = edtTelefono.getText().toString().trim();
         String usertel2 = edtTelefono2.getText().toString().trim();
 
-        if (username.isEmpty() || usertel.isEmpty()){
+        if (username.isEmpty() || usertel.isEmpty()) {
             Toast.makeText(getContext(), "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
-        }else if(!Objects.equals(usertel, usertel2)){
+        } else if (!Objects.equals(usertel, usertel2)) {
             Toast.makeText(getContext(), "Los numeros telefonicos no son iguales", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
 
             dialog = ProgressDialog.show(getContext(), "", "Cargando contenido");
-            String url = "http://vaclases.netsti.com/registrar/" + username+"/"+usertel;
+            String url = "http://vaclases.netsti.com/registrar/" + username + "/" + usertel;
 
             JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
                 @Override
@@ -125,8 +125,8 @@ public class FullScreenRegistro extends DialogFragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     dialog.cancel();
-                    Log.i("Error registro",error.getMessage());
-                    Toast.makeText(getContext(),"Error al conectarse al servidor, intente de nuevo",Toast.LENGTH_SHORT).show();
+                    Log.i("Error registro", error.getMessage());
+                    Toast.makeText(getContext(), "Error al conectarse al servidor, intente de nuevo", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -140,27 +140,27 @@ public class FullScreenRegistro extends DialogFragment {
         }
     }
 
-    public void parser(JSONObject response){
+    public void parser(JSONObject response) {
         try {
-            if(response.getString("status").equals("registrado")){
+            if (response.getString("status").equals("registrado")) {
                 dialog.cancel();
                 FragmentActivity activity = (FragmentActivity) (getContext());
                 FragmentManager fm = activity.getSupportFragmentManager();
                 RegistroOkDialog alertDialog = new RegistroOkDialog();
                 alertDialog.show(fm, "RegistroOkDialog");
 
-            }else if (response.getString("status").equals("no_existe")){
+            } else if (response.getString("status").equals("no_existe")) {
                 dialog.cancel();
-                Toast.makeText(getContext(),"Su numero de identidad no se encuentra registrada en SACE",
+                Toast.makeText(getContext(), "Su numero de identidad no se encuentra registrada en SACE",
                         Toast.LENGTH_SHORT).show();
-            }else if(response.getString("status").equals("no_hijos")){
+            } else if (response.getString("status").equals("no_hijos")) {
                 dialog.cancel();
-                Toast.makeText(getContext(),"No se encontraron hijos registrados a su nombre, " +
+                Toast.makeText(getContext(), "No se encontraron hijos registrados a su nombre, " +
                                 "Comuniquese con el encargado de su centro educativo y actualice sus datos.",
                         Toast.LENGTH_LONG).show();
-            }else if(response.getString("status").equals("existe")){
+            } else if (response.getString("status").equals("existe")) {
                 dialog.cancel();
-                Toast.makeText(getContext(),"El usuario ya existe, no requiere registro",
+                Toast.makeText(getContext(), "El usuario ya existe, no requiere registro",
                         Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {

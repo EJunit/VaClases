@@ -20,19 +20,19 @@ public class ControlActivity extends AppCompatActivity {
         a();
     }
 
-    public void a(){
+    public void a() {
         String flag = pref.getEstadoTutorial();// prefsTutorial.getString("flag", "NO");
 
         if (flag.equals("1")) {
 
             String username = pref.getTokken();// prefs.getString("username", "username");
-            Log.i("tokken de preferenci",username);
-            if (username.equals("username")){
+            Log.i("tokken de preferenci", username);
+            if (username.equals("username")) {
                 openLogin();
-            }else{
+            } else {
                 openProfile();
             }
-        }else{//fin del if
+        } else {//fin del if
             Intent intent = new Intent(this, IntroActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

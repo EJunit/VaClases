@@ -12,19 +12,20 @@ public class Validacion {
     private String preguntas;
 
     //clases
-    public Validacion(String f1,String fecha_fin,String dias,int type, String id_validacion_clases){
-        this.fecha_ini=f1;
-        this.fecha_fin=fecha_fin;
-        this.cant_dias =dias;
+    public Validacion(String f1, String fecha_fin, String dias, int type, String id_validacion_clases) {
+        this.fecha_ini = f1;
+        this.fecha_fin = fecha_fin;
+        this.cant_dias = dias;
         this.id_validacion_clases = id_validacion_clases;
-        this.type=type;
+        this.type = type;
     }
+
     //problemas
-    public Validacion(int type,String fecha,String id_problema,String preguntas){
-        this.fecha_problema=fecha;
-        this.id_problema=id_problema;
-        this.type=type;
-        this.preguntas=preguntas;
+    public Validacion(int type, String fecha, String id_problema, String preguntas) {
+        this.fecha_problema = fecha;
+        this.id_problema = id_problema;
+        this.type = type;
+        this.preguntas = preguntas;
     }
 
     public String getFecha_ini() {
@@ -33,7 +34,9 @@ public class Validacion {
 
     public String getCant_dias() {
         return cant_dias;
-    }public int getType() {
+    }
+
+    public int getType() {
         return type;
     }
 

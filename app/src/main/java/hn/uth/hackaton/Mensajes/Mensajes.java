@@ -9,7 +9,7 @@ public class Mensajes {
     private String mensaje;
     private String fecha;
 
-    public Mensajes(){
+    public Mensajes() {
     }
 
     public String getTitulo() {

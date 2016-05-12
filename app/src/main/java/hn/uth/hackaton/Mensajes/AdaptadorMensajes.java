@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +18,7 @@ import hn.uth.hackaton.R;
 
 public class AdaptadorMensajes extends RecyclerView.Adapter<AdaptadorMensajes.ViewHolder> {
 
-    private List<Mensajes> items ;
+    private List<Mensajes> items;
     private Context mContext;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,10 +44,10 @@ public class AdaptadorMensajes extends RecyclerView.Adapter<AdaptadorMensajes.Vi
 
     public AdaptadorMensajes(Context context, List<Mensajes> items) {
         this.items = items;
-        this.mContext= context;
+        this.mContext = context;
     }
 
-    public void clear(){
+    public void clear() {
         items.clear();
         notifyDataSetChanged();
     }

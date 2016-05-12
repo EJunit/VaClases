@@ -45,36 +45,36 @@ public class SeleccionHijoDialog extends DialogFragment {
     Typeface Roboto_Light;
     private int cantHijo;
 
-    private void setNombreAlumno(String nombre){
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
+    private void setNombreAlumno(String nombre) {
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("nombre_alumno",nombre);
+        edit.putString("nombre_alumno", nombre);
         edit.apply();
     }
 
-    private void setIdentidadAlumno(String nombre){
+    private void setIdentidadAlumno(String nombre) {
         SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("identidad_alumno",nombre);
+        edit.putString("identidad_alumno", nombre);
         edit.apply();
     }
 
-    private void setNombreEscuela(String nombre){
+    private void setNombreEscuela(String nombre) {
         SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("nombre_escuela",nombre);
+        edit.putString("nombre_escuela", nombre);
         edit.apply();
     }
 
-    private void setEscuelaSelect(String nombre){
+    private void setEscuelaSelect(String nombre) {
         SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("escuela_select",nombre);
+        edit.putString("escuela_select", nombre);
         edit.apply();
     }
 
     private String loadNombre() {
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_alumno", "nombre");
     }
 
@@ -106,7 +106,7 @@ public class SeleccionHijoDialog extends DialogFragment {
         r = (LinearLayout) v.findViewById(R.id.LinearHijo);
         conf = new Preferencias(getContext());
 
-        String url ="http://vaclases.netsti.com/api/encargado?token="+conf.getTokken();
+        String url = "http://vaclases.netsti.com/api/encargado?token=" + conf.getTokken();
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -121,7 +121,7 @@ public class SeleccionHijoDialog extends DialogFragment {
 
                 dialog.cancel();
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -139,16 +139,18 @@ public class SeleccionHijoDialog extends DialogFragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(req);
 
-        Button ok= (Button) v.findViewById(R.id.btn_hijos);
+        Button ok = (Button) v.findViewById(R.id.btn_hijos);
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cantHijo>1){
-                    Toast.makeText(getContext(), "Selecciono a : "+loadNombre() ,Toast.LENGTH_SHORT).show();
+                if (cantHijo > 1) {
+                    Toast.makeText(getContext(), "Selecciono a : " + loadNombre(), Toast.LENGTH_SHORT).show();
                     dismiss();
                     openProfile();
-                }else{dismiss();}
+                } else {
+                    dismiss();
+                }
             }
         });
 
@@ -163,10 +165,10 @@ public class SeleccionHijoDialog extends DialogFragment {
         getActivity().finish();
     }
 
-    public void parser (JSONObject response,LinearLayout r) {
+    public void parser(JSONObject response, LinearLayout r) {
 
         try {
-            if(response.getString("status").equals("exito")){
+            if (response.getString("status").equals("exito")) {
 
                 JSONObject infoData = response.getJSONObject("data");
 
@@ -190,10 +192,10 @@ public class SeleccionHijoDialog extends DialogFragment {
 
                             final JSONObject infoAlumno = alumnos.getJSONObject(b);
                             cantHijo = alumnos.length();
-                            rb[b]  = new RadioButton(getContext());
+                            rb[b] = new RadioButton(getContext());
                             rg.addView(rb[b]);
 
-                            if(infoAlumno.getString("nombre").equals(loadNombre())){
+                            if (infoAlumno.getString("nombre").equals(loadNombre())) {
 
                                 rb[b].setText(infoAlumno.getString("nombre"));
                                 rb[b].setTypeface(Roboto_Light);
@@ -205,7 +207,7 @@ public class SeleccionHijoDialog extends DialogFragment {
 
                                         if (isChecked) {
 
-                                            SharedPreferences prefsAlumno= getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
+                                            SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
                                             SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
                                             editorAlumno.clear();
                                             editorAlumno.apply();
@@ -224,7 +226,7 @@ public class SeleccionHijoDialog extends DialogFragment {
 
                                     }
                                 });
-                            }else{
+                            } else {
                                 rb[b].setText(infoAlumno.getString("nombre"));
                                 rb[b].setTypeface(Roboto_Light);
                                 rb[b].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
@@ -233,7 +235,7 @@ public class SeleccionHijoDialog extends DialogFragment {
                                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                         if (isChecked) {
 
-                                            SharedPreferences prefsAlumno= getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
+                                            SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
                                             SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
                                             editorAlumno.clear();
                                             editorAlumno.apply();

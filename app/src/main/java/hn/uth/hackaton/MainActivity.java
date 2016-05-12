@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import hn.uth.hackaton.Login.LoginActivity;
-import hn.uth.hackaton.ParseService.ParseUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         channels.add(muni);
         channels.add("Honduras");
 
-        ParseUtils.registroChannels(channels);
+        //ParseUtils.registroChannels(channels);
         //registro de tags
         JSONObject tags = new JSONObject();
         try {
@@ -97,13 +96,9 @@ public class MainActivity extends AppCompatActivity {
         OneSignal.sendTags(tags);
         //fin de registro de tags de OneSignal
 
-        ParseUtils.verifyParseConfiguration(this);
+        //ParseUtils.verifyParseConfiguration(this);
 
         String email = loadUser().replace("\n","").replace(" ","")+"@vaclases.com";
-
-        try {
-            ParseUtils.subscribeWithEmail(email);
-        }catch (Exception ignored){}
 
         Fragment fragmentoGenerico = new FragmentoTabs();
         fragmentManager = getSupportFragmentManager();
@@ -139,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.show(fm, "CambioPassDialog");
         } else if (id == R.id.action_salir) {
             if(isOnline()){
-                ParseUtils.removeChannels();
                 EliminaPreferencias();
             }else{
              Toast.makeText(this,"Es necesaria una conexión a internet para cerrar sesión",Toast.LENGTH_LONG).show();

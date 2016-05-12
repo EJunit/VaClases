@@ -60,22 +60,22 @@ public class ValidacionClasesDialog extends DialogFragment {
     }
 
     private String loadIdValidacion() {
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("MiCuenta",Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
         return prefs.getString("id_val", "id_val");
     }
 
     private String loadIdentidadAlumno() {
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("identidad_alumno", " ");
     }
 
     private String loadDias() {
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("MiCuenta",Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
         return prefs.getString("dias", "no hay");
     }
 
     private String loadFecha() {
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("MiCuenta",Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
         return prefs.getString("fecha", "no hay");
     }
 
@@ -85,7 +85,7 @@ public class ValidacionClasesDialog extends DialogFragment {
         return createLoginDialogo();
     }
 
-    public Date sumarRestarDiasFecha(Date fecha, int dias){
+    public Date sumarRestarDiasFecha(Date fecha, int dias) {
 
         Calendar calendar = Calendar.getInstance();
 
@@ -117,13 +117,13 @@ public class ValidacionClasesDialog extends DialogFragment {
 
             @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha = new SimpleDateFormat("yyyy-MM-dd");
 
-            for(int a=0; a < dias; a++){
+            for (int a = 0; a < dias; a++) {
 
-                String fecha= format_fecha.format(sumarRestarDiasFecha(d, a));
+                String fecha = format_fecha.format(sumarRestarDiasFecha(d, a));
 
                 try {
                     JSONObject res = new JSONObject();
-                    res.put("_id", a+1);
+                    res.put("_id", a + 1);
                     res.put("fecha", fecha);
                     arrayFechas.put(res);
                 } catch (JSONException e) {
@@ -143,7 +143,8 @@ public class ValidacionClasesDialog extends DialogFragment {
         r = (LinearLayout) v.findViewById(R.id.LinearValidacionClase);
         try {
             busquedaDatos();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
 
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,13 +166,13 @@ public class ValidacionClasesDialog extends DialogFragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
 
                                 JSONObject Infofecha;
-                                for(int a=1;a<=arrayFechas.length();a++){
+                                for (int a = 1; a <= arrayFechas.length(); a++) {
 
                                     try {
-                                         Infofecha=arrayFechas.getJSONObject(a-1);
+                                        Infofecha = arrayFechas.getJSONObject(a - 1);
 
                                         String fecha = Infofecha.getString("fecha");
-                                        String respuesta=String.valueOf(obj.get(String.valueOf(a)));
+                                        String respuesta = String.valueOf(obj.get(String.valueOf(a)));
 
                                         SaveValidacion(respuesta, fecha, String.valueOf(a));
                                         Thread.sleep(200);
@@ -181,10 +182,11 @@ public class ValidacionClasesDialog extends DialogFragment {
                                     }
                                 }
 
-                                Toast.makeText(getContext(),"Validaciones Ingresadas, gracias por su aporte",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Validaciones Ingresadas, gracias por su aporte", Toast.LENGTH_SHORT).show();
                                 dismiss();
                                 openProfile();
-                            }})//fin del positive clic
+                            }
+                        })//fin del positive clic
                         .setNegativeButton(android.R.string.no, null).show();
 
             }
@@ -202,11 +204,11 @@ public class ValidacionClasesDialog extends DialogFragment {
         getActivity().finish();
     }
 
-    public void SaveValidacion(String respuesta, String fecha, String index){
+    public void SaveValidacion(String respuesta, String fecha, String index) {
 
-        String token = conf.getTokken().replace(" ","");
+        String token = conf.getTokken().replace(" ", "");
 
-        String url= "http://vaclases.netsti.com/api/confirma?token="+token.replace("\n", "")+"&index="+index+"&type=1&validacion_id="+loadIdValidacion()+"&fecha="+fecha+"&alumno_id="+loadIdentidadAlumno()+"&respuesta="+respuesta;
+        String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "") + "&index=" + index + "&type=1&validacion_id=" + loadIdValidacion() + "&fecha=" + fecha + "&alumno_id=" + loadIdentidadAlumno() + "&respuesta=" + respuesta;
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -214,10 +216,10 @@ public class ValidacionClasesDialog extends DialogFragment {
                 try {
                     String r = response.getString("status");
 
-                    if(r.equals("exito")){
+                    if (r.equals("exito")) {
                         Log.i("validacion realizada", "bien :D");
-                    }else {
-                        Toast.makeText(getContext(),"error al confirmar",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -227,9 +229,9 @@ public class ValidacionClasesDialog extends DialogFragment {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("Error de consulta",error.toString());
+                Log.i("Error de consulta", error.toString());
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -253,7 +255,7 @@ public class ValidacionClasesDialog extends DialogFragment {
     }
 
     @SuppressLint("SetTextI18n")
-    public void parser (JSONArray response,LinearLayout r){
+    public void parser(JSONArray response, LinearLayout r) {
 
         String id_valor;
 
@@ -265,47 +267,47 @@ public class ValidacionClasesDialog extends DialogFragment {
                     JSONObject infoJosn = response.getJSONObject(a);
 
                     @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        Date d3 = null;
-                        try {
-                            d3 = sdf.parse(infoJosn.getString("fecha"));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha3 = new SimpleDateFormat("EEEE");
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha4 = new SimpleDateFormat("dd");
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha5 = new SimpleDateFormat("MMMM");
-
-                        String fecha_pref = format_fecha3.format(d3)+" - "+ format_fecha4.format(d3)+"/ "+format_fecha5.format(d3);
-
-                        CheckBox ch = new CheckBox(getContext());
-                        ch.setPadding(25, 22, 20, 20);
-                        ch.setText(fecha_pref);
-                        r.addView(ch);
-                        id_valor=infoJosn.getString("_id");
-
-                        ch.setTypeface(Roboto_Light);
-                        ch.setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
-                        final String finalId_valor = id_valor;
-
-                    if(!ch.isChecked()){
-                        obj.put(finalId_valor,"2");
+                    Date d3 = null;
+                    try {
+                        d3 = sdf.parse(infoJosn.getString("fecha"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                        ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                Log.i("Valor check enevnto", String.valueOf(buttonView.isChecked()));
-                                try {
-                                    if (buttonView.isChecked()){
-                                        obj.put(finalId_valor, "1");
-                                    }else {
-                                        obj.put(finalId_valor, "2");
-                                    }
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha3 = new SimpleDateFormat("EEEE");
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha4 = new SimpleDateFormat("dd");
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha5 = new SimpleDateFormat("MMMM");
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                    String fecha_pref = format_fecha3.format(d3) + " - " + format_fecha4.format(d3) + "/ " + format_fecha5.format(d3);
+
+                    CheckBox ch = new CheckBox(getContext());
+                    ch.setPadding(25, 22, 20, 20);
+                    ch.setText(fecha_pref);
+                    r.addView(ch);
+                    id_valor = infoJosn.getString("_id");
+
+                    ch.setTypeface(Roboto_Light);
+                    ch.setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
+                    final String finalId_valor = id_valor;
+
+                    if (!ch.isChecked()) {
+                        obj.put(finalId_valor, "2");
+                    }
+                    ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Log.i("Valor check enevnto", String.valueOf(buttonView.isChecked()));
+                            try {
+                                if (buttonView.isChecked()) {
+                                    obj.put(finalId_valor, "1");
+                                } else {
+                                    obj.put(finalId_valor, "2");
                                 }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        });
+                        }
+                    });
 
                 } catch (JSONException ignored) {
                 }

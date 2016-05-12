@@ -32,7 +32,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,22 +54,36 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
     List<Eventos> itemsAux;
     ArrayList<Eventos> data;
     private Preferencias conf;
-    private  SharedPreferences prefsEventos;
+    private SharedPreferences prefsEventos;
     private SharedPreferences.Editor editorEvetos;
+    private String fechaActual;
     private String esc_selec;
+    private String depto_select;
+    private String muni_select;
+    Date fechaActual2 = null;
+    Date fechaEvento2 = null;
 
     private String loadNombre() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_alumno", " ");
     }
-    private String loadPadreSelect() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-        return prefs.getString("padre_select", " ");
-    }
+
     private String loadEscuela() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_escuela", " ");
     }
+
+    private String loadDepto() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("departamento", Context.MODE_PRIVATE);
+        return prefs.getString("depto", " ");
+    }
+
+    private String loadMuni() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("municipio", Context.MODE_PRIVATE);
+
+        return prefs.getString("muni", " ");
+    }
+
     public FragmentoEventos() {
     }
 
@@ -79,6 +97,8 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
         prefsEventos = this.getActivity().getSharedPreferences("Eventos", Context.MODE_PRIVATE);
         editorEvetos = prefsEventos.edit();
         esc_selec = loadEscuela();
+        depto_select = loadDepto();
+        muni_select = loadMuni();
 
         conf = new Preferencias(getContext());
 
@@ -102,6 +122,13 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        Date date = cal.getTime();
+
+        fechaActual = sdf.format(date);
 
         FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fabEventos);
 
@@ -142,24 +169,24 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
         imgVacioe.setBackgroundResource(R.drawable.exito);
         refreshLayoutE.setRefreshing(true);
 
-        String url = "http://vaclases.netsti.com/api/eventos?token="+conf.getTokken();
+        String url = "http://vaclases.netsti.com/api/eventos?token=" + conf.getTokken();
         if (isOnline()) {
             JsonObjectRequest req2 = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                        editorEvetos.putString("f", response.toString());
-                        editorEvetos.apply();
-                        data = new ArrayList<>();
-                        data = (ArrayList<Eventos>) parser(response);
-                        refreshLayoutE.setRefreshing(false);
+                    editorEvetos.putString("f", response.toString());
+                    editorEvetos.apply();
+                    data = new ArrayList<>();
+                    data = (ArrayList<Eventos>) parser(response);
+                    refreshLayoutE.setRefreshing(false);
                 }
             }, new Response.ErrorListener() {
                 public void onErrorResponse(VolleyError error) {
                     refreshLayoutE.setRefreshing(false);
                 }
-            }){
+            }) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {   
+                public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<>();
                     headers.put("Content-Type", "application/json");
                     headers.put("Cookie", conf.getCookie());
@@ -173,10 +200,10 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             queue.add(req2);
-        }else{ //si no hay conexion
+        } else { //si no hay conexion
 
             String strJson = prefsEventos.getString("f", "NO");
-            if (!strJson.equals("NO")){
+            if (!strJson.equals("NO")) {
                 JSONObject jsonData = null;
                 try {
                     jsonData = new JSONObject(strJson);
@@ -191,7 +218,7 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    public List<Eventos> parser (JSONObject response){
+    public List<Eventos> parser(JSONObject response) {
         // Inicializar la fuente de datos temporal
         itemsAux = new ArrayList<>();
 
@@ -200,15 +227,35 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
 
                 JSONArray dataEventos = response.getJSONArray("data");
 
-                    for (int a = 0; a < dataEventos.length(); a++) {
+                for (int a = 0; a < dataEventos.length(); a++) {
 
-                        Eventos info = new Eventos();
-//
-                        JSONObject infoJosn = dataEventos.getJSONObject(a);
-                        //JSONObject infoCentro = infoJosn.getJSONObject("centro_educativo");
+                    Eventos info = new Eventos();
+
+                    JSONObject infoJosn = dataEventos.getJSONObject(a);
+
+                    try {
+
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        String strFecha = fechaActual;
+                        String srtFechaE = infoJosn.getString("fecha_evento");
+
                         try {
 
-                            if(infoJosn.getString("type_name").equals(esc_selec)) {
+                            fechaActual2 = formatoDelTexto.parse(strFecha);
+                            fechaEvento2 = formatoDelTexto.parse(srtFechaE);
+
+                        } catch (ParseException ex) {
+
+                            ex.printStackTrace();
+
+                        }
+
+                        assert fechaActual2 != null;
+                        if (fechaActual2.before(fechaEvento2)) {
+
+                            if (infoJosn.getString("type_name").equals(esc_selec) || infoJosn.getString("type_name").equals(depto_select)
+                                    || infoJosn.getString("type_name").equals("Todo el Pais")) {
+
 
                                 info.setTitulo_evento(infoJosn.getString("evento_nombre"));
                                 info.setDescripcion_evento(infoJosn.getString("evento_descripcion"));
@@ -219,19 +266,41 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
 
                                 adaptador = new AdaptadorEventos(itemsAux, getActivity());
 
-                            }
-                        } catch (JSONException ignored) {
-                        }
-                    }
+                            } else if (!infoJosn.getString("type_name").equals(esc_selec) || !infoJosn.getString("type_name").equals(depto_select)
+                                    || !infoJosn.getString("type_name").equals("Todo el Pais")) {
 
-                if(itemsAux.size() <= 0){
+                                int tamaño_depto = muni_select.length();
+
+                                String as = infoJosn.getString("type_name");
+                                String muni = as.substring(0, tamaño_depto);
+
+
+                                if (muni.equals(muni_select)) {
+
+                                    info.setTitulo_evento(infoJosn.getString("evento_nombre"));
+                                    info.setDescripcion_evento(infoJosn.getString("evento_descripcion"));
+                                    info.setFecha(infoJosn.getString("fecha_evento"));
+                                    info.setIdEvento(infoJosn.getString("id"));
+
+                                    itemsAux.add(info);
+
+                                    adaptador = new AdaptadorEventos(itemsAux, getActivity());
+                                }
+
+                            }
+                        }
+                    } catch (JSONException ignored) {
+                    }
+                }
+
+                if (itemsAux.size() <= 0) {
                     imgVacioe.setBackgroundResource(R.drawable.vacio);
                     imgVacioe.setPadding(25, 25, 25, 25);
                 }
                 reciclador.setAdapter(adaptador);
-            }   else if(response.getString("status").equals("vacio")){
+            } else if (response.getString("status").equals("vacio")) {
                 imgVacioe.setBackgroundResource(R.drawable.vacio);
-                imgVacioe.setPadding(25,25,25,25);
+                imgVacioe.setPadding(25, 25, 25, 25);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -244,7 +313,7 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
     public void onRefresh() {
         try {
             adaptador.clear();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             refreshLayoutE.setRefreshing(false);
             Snackbar.make(getView(), "No tienes eventos pendientes :)", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();

@@ -5,8 +5,6 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-import hn.uth.hackaton.ParseService.ParseUtils;
-
 public class MyApplication extends Application {
 
     private static MyApplication mInstance;
@@ -16,8 +14,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        // REGISTRO EN PARSE
-        ParseUtils.registerParse(this);
     }
 
     public static synchronized MyApplication getInstance() {

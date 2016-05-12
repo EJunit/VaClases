@@ -57,7 +57,7 @@ public class FragmentoTabs extends Fragment {
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
         adapter.addFragment(new FragmentoValidacion(), getString(R.string.titulo_tab_validacion));
-        adapter.addFragment(new FragmentoMensaje(),getString(R.string.titulo_tab_mensaje));
+        adapter.addFragment(new FragmentoMensaje(), getString(R.string.titulo_tab_mensaje));
         adapter.addFragment(new FragmentoEventos(), getString(R.string.titulo_tab_evento));
         viewPager.setAdapter(adapter);
         //pestanas.getTabAt(1).setCustomView(new FragmentoMensaje(), getString(R.string.titulo_tab_mensaje));

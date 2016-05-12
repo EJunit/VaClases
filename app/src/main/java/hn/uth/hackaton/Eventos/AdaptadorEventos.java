@@ -20,14 +20,14 @@ import java.util.List;
 import hn.uth.hackaton.ItemClickListener;
 import hn.uth.hackaton.R;
 
-public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.ViewHolder>{
+public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.ViewHolder> {
 
-    private List<Eventos> items ;
+    private List<Eventos> items;
     private Context mContext;
     public static final String NUM_CUENTA = "MiCuenta";
     SharedPreferences prefs;
 
-    public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ItemClickListener clickListener;
         // Campos respectivos de un item
@@ -66,7 +66,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
         this.mContext = context;
     }
 
-    public void clear(){
+    public void clear() {
         items.clear();
         notifyDataSetChanged();
     }
@@ -85,7 +85,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
-       Eventos item = items.get(i);
+        Eventos item = items.get(i);
 
         viewHolder.actividad.setText(item.getDescripcion_evento());
         viewHolder.nombre.setText(item.getTitulo_evento());
@@ -109,7 +109,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
         viewHolder.setClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                guardarPreferencias(items.get(position).getIdEvento(),items.get(position).getFecha());//guarda el codigo del evento o actividad
+                guardarPreferencias(items.get(position).getIdEvento(), items.get(position).getFecha());//guarda el codigo del evento o actividad
                 FragmentActivity activity = (FragmentActivity) (view.getContext());
                 FragmentManager fm = activity.getSupportFragmentManager();
 
@@ -119,7 +119,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
         });
     }
 
-    public void guardarPreferencias(String IdEvento, String fecha){
+    public void guardarPreferencias(String IdEvento, String fecha) {
         prefs = mContext.getSharedPreferences(NUM_CUENTA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("id_evento", IdEvento);

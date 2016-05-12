@@ -7,26 +7,26 @@ public class Preferencias {
 
     private final String KEY_USER = "username";
     private final String KEY_CEDULA = "cedulaPadre";
-    public static final String KEY_FLAG="flags";
-    public static final String KEY_COOKIES  ="cookie";
+    public static final String KEY_FLAG = "flags";
+    public static final String KEY_COOKIES = "cookie";
 
     private Context mContext;
 
-    public Preferencias(Context context){
+    public Preferencias(Context context) {
         mContext = context;
     }
 
-    private SharedPreferences getSettingsCuenta(){
+    private SharedPreferences getSettingsCuenta() {
         String SHARED_PREFS_FILE = "MiCuenta";
         return mContext.getSharedPreferences(SHARED_PREFS_FILE, 0);
     }
 
-    private SharedPreferences getSettingsTuto(){
+    private SharedPreferences getSettingsTuto() {
         String SHARED_PREFS_FILE = "tutorial";
         return mContext.getSharedPreferences(SHARED_PREFS_FILE, 0);
     }
 
-    private SharedPreferences getSettingsCookies(){
+    private SharedPreferences getSettingsCookies() {
         String SHARED_PREFS_FILE = "Cookies";
         return mContext.getSharedPreferences(SHARED_PREFS_FILE, 0);
     }
@@ -35,9 +35,9 @@ public class Preferencias {
         return getSettingsTuto().getString(KEY_FLAG, "NO");
     }
 
-    public void setFlagTuto(String flag){
+    public void setFlagTuto(String flag) {
         SharedPreferences.Editor editor = getSettingsTuto().edit();
-        editor.putString(KEY_FLAG, flag );
+        editor.putString(KEY_FLAG, flag);
         editor.apply();
     }
 
@@ -45,9 +45,9 @@ public class Preferencias {
         return getSettingsCuenta().getString(KEY_USER, "username");
     }
 
-    public void setTokken(String user){
+    public void setTokken(String user) {
         SharedPreferences.Editor editor = getSettingsCuenta().edit();
-        editor.putString(KEY_USER, user );
+        editor.putString(KEY_USER, user);
         editor.apply();
     }
 
@@ -55,9 +55,9 @@ public class Preferencias {
         return getSettingsCuenta().getString(KEY_CEDULA, " ");
     }
 
-    public void setCedulaPadre(String user){
+    public void setCedulaPadre(String user) {
         SharedPreferences.Editor editor = getSettingsCuenta().edit();
-        editor.putString(KEY_CEDULA, user );
+        editor.putString(KEY_CEDULA, user);
         editor.apply();
     }
 

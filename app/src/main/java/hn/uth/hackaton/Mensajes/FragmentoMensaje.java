@@ -33,7 +33,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +59,12 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
     private SharedPreferences.Editor editorMensajes;
     ArrayList<Mensajes> data;
     private String esc_selec;
+    private String depto_select;
+    private String fechaActual;
+    Calendar calendar;
+    Date fechaActual2;
+    Date fechaMensaje2;
+    private String muni_select;
 
     private String loadNombre() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -65,9 +75,21 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_escuela", " ");
     }
+
     private String loadPadreSelect() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("padre_select", " ");
+    }
+
+    private String loadDepto() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("departamento", Context.MODE_PRIVATE);
+        return prefs.getString("depto", " ");
+    }
+
+    private String loadMuni() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("municipio", Context.MODE_PRIVATE);
+
+        return prefs.getString("muni", " ");
     }
 
 
@@ -79,12 +101,14 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-       View view = inflater.inflate(R.layout.fragmento_mensaje, container, false);
+        View view = inflater.inflate(R.layout.fragmento_mensaje, container, false);
         conf = new Preferencias(getContext());
 
         prefsMensajes = this.getActivity().getSharedPreferences("Mensajes", Context.MODE_PRIVATE);
         editorMensajes = prefsMensajes.edit();
         esc_selec = loadEscuela();
+        depto_select = loadDepto();
+        muni_select = loadMuni();
 
         Typeface roboto_condensed = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Condensed.ttf");
 
@@ -108,6 +132,13 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        Date date = cal.getTime();
+
+        fechaActual = sdf.format(date);
 
         FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fabMensajes);
 
@@ -147,7 +178,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
 
         refreshLayoutM.setRefreshing(true);
 
-        String url = "http://vaclases.netsti.com/api/mensajes?token="+conf.getTokken();
+        String url = "http://vaclases.netsti.com/api/mensajes?token=" + conf.getTokken();
 
         if (isOnline()) {
 
@@ -156,11 +187,10 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
             JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                       Log.i("response mensajes",response.toString());
-                        editorMensajes.putString("f3", response.toString());
-                        editorMensajes.apply();
-                        data = (ArrayList<Mensajes>) parser(response);
-                        refreshLayoutM.setRefreshing(false);
+                    editorMensajes.putString("f3", response.toString());
+                    editorMensajes.apply();
+                    data = (ArrayList<Mensajes>) parser(response);
+                    refreshLayoutM.setRefreshing(false);
 
                 }
             }, new Response.ErrorListener() {
@@ -170,7 +200,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
                     refreshLayoutM.setRefreshing(false);
                 }
 
-            }){
+            }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<>();
@@ -204,7 +234,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    public List<Mensajes> parser (JSONObject response){
+    public List<Mensajes> parser(JSONObject response) {
         // Inicializar la fuente de datos temporal
         itemsAux = new ArrayList<>();
 
@@ -213,27 +243,32 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
 
                 JSONArray dataMensajes = response.getJSONArray("data");
 
-                    for (int a = 0; a <= dataMensajes.length(); a++) {
+                for (int a = 0; a <= dataMensajes.length(); a++) {
 
-                        Mensajes info = new Mensajes();
+                    Mensajes info = new Mensajes();
+                    try {
+                        JSONObject infoJosn = dataMensajes.getJSONObject(a);
+
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        String strFecha = fechaActual;
+                        String srtFechaM = infoJosn.getString("fecha");
+                        fechaActual2 = null;
+                        fechaMensaje2 = null;
                         try {
-                            JSONObject infoJosn = dataMensajes.getJSONObject(a);
+                            fechaActual2 = formatoDelTexto.parse(strFecha);
+                            fechaMensaje2 = formatoDelTexto.parse(srtFechaM);
+                            calendar = Calendar.getInstance();
+                            calendar.setTime(fechaMensaje2); // Configuramos la fecha que se recibe
+                            calendar.add(Calendar.DAY_OF_YEAR, 5);
+                        } catch (ParseException ex) {
+                            ex.printStackTrace();
+                        }
 
-                           // if(infoJosn.getString("encargado_id").equals("null")){
-                                //JSONObject infoCentro = infoJosn.getJSONObject("centro_educativo");
-
-                                if(infoJosn.getString("type_name").equals(loadPadreSelect()) || infoJosn.getString("type_name").equals(esc_selec)){
-
-                                    info.setTitulo(infoJosn.getString("titulo"));
-                                    info.setMensaje(infoJosn.getString("mensaje"));
-                                    info.setFecha(infoJosn.getString("fecha"));
-
-                                    itemsAux.add(info);
-
-                                    adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
-                                    //imgVacio.setBackgroundResource(R.drawable.exito);
-                                }
-                            /*}else{
+                        assert fechaActual2 != null;
+                        if (fechaActual2.before(calendar.getTime())) {
+                            if (infoJosn.getString("type_name").equals(loadPadreSelect()) ||
+                                    infoJosn.getString("type_name").equals(esc_selec) || infoJosn.getString("type_name").equals(depto_select)
+                                    || infoJosn.getString("type_name").equals("Todo el Pais")) {
 
                                 info.setTitulo(infoJosn.getString("titulo"));
                                 info.setMensaje(infoJosn.getString("mensaje"));
@@ -243,22 +278,41 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
 
                                 adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
 
-                               // imgVacio.setBackgroundResource(R.drawable.exito);
-                            }*/
+                            } else if (!infoJosn.getString("type_name").equals(loadPadreSelect()) ||
+                                    !infoJosn.getString("type_name").equals(esc_selec) || !infoJosn.getString("type_name").equals(depto_select)
+                                    || !infoJosn.getString("type_name").equals("Todo el Pais")) {
 
-                        } catch (JSONException ignored) {
+                                int tamaño_depto = muni_select.length();
+
+                                String as = infoJosn.getString("type_name");
+                                String muni = as.substring(0, tamaño_depto);
+
+                                if (muni.equals(muni_select)) {
+                                    info.setTitulo(infoJosn.getString("titulo"));
+                                    info.setMensaje(infoJosn.getString("mensaje"));
+                                    info.setFecha(infoJosn.getString("fecha"));
+
+                                    itemsAux.add(info);
+
+                                    adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
+                                }
+
+
+                            }
                         }
+                    } catch (JSONException ignored) {
                     }
+                }
 
-                if(itemsAux.size() <= 0){
+                if (itemsAux.size() <= 0) {
                     imgVacio.setBackgroundResource(R.drawable.vacio);
-                    imgVacio.setPadding(25,25,25,25);
+                    imgVacio.setPadding(25, 25, 25, 25);
                 }
 
                 reciclador.setAdapter(adaptador);
-            }else if(response.getString("status").equals("vacio")){
+            } else if (response.getString("status").equals("vacio")) {
                 imgVacio.setBackgroundResource(R.drawable.vacio);
-                imgVacio.setPadding(25,25,25,25);
+                imgVacio.setPadding(25, 25, 25, 25);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -274,8 +328,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
         } catch (NullPointerException e) {
             refreshLayoutM.setRefreshing(false);
             Snackbar.make(getView(), "No tienes Mensajes pendientes :)", Snackbar.LENGTH_LONG)
-                    .setAction("Action",null).show();
-
+                    .setAction("Action", null).show();
             return;
         }
         busquedaDatos(getView());
@@ -283,10 +336,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-
         return netInfo != null && netInfo.isConnectedOrConnecting();
-
     }
 }

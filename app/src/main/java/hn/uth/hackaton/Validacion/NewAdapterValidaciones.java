@@ -20,9 +20,9 @@ import java.util.List;
 import hn.uth.hackaton.ItemClickListener;
 import hn.uth.hackaton.R;
 
-public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<Validacion> items ;
+    List<Validacion> items;
     private Context mContext;
     public static final String NUM_CUENTA = "MiCuenta";
     SharedPreferences prefs;
@@ -118,13 +118,13 @@ public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder( RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Validacion item = items.get(position);
 
-        if(getItemViewType(position) == 1) {
-            ViewHolder0 holder1 = (ViewHolder0)holder;
+        if (getItemViewType(position) == 1) {
+            ViewHolder0 holder1 = (ViewHolder0) holder;
 
-            try{
+            try {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date d = sdf.parse(item.getFecha_ini());
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha = new SimpleDateFormat("dd-MMMM");
@@ -136,7 +136,7 @@ public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.Vi
                 String fecha_fin = format_fecha2.format(d2);
 
                 holder1.fecha_fin.setText(fecha_fin);
-            }catch(ParseException ignored){
+            } catch (ParseException ignored) {
             }
 
             holder1.setClickListener(new ItemClickListener() {
@@ -155,15 +155,15 @@ public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.Vi
             });
 
         } else {
-            ViewHolder2 holder2 = (ViewHolder2)holder;
+            ViewHolder2 holder2 = (ViewHolder2) holder;
 
-            try{
+            try {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date d = sdf.parse(item.getFecha_problema());
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha = new SimpleDateFormat("dd-MMMM, yyyy");
                 String fecha_format = format_fecha.format(d);
                 holder2.fecha.setText(fecha_format);//asignamos la fecha al card
-            }catch(ParseException ignored){
+            } catch (ParseException ignored) {
             }
 
             holder2.setClickListener(new ItemClickListener() {
@@ -181,7 +181,7 @@ public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.Vi
                     @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha3 = new SimpleDateFormat("yyyy-MM-dd");
                     String fecha_pref = format_fecha3.format(d3);
 
-                    guardarEncuesta( items.get(position).getId_problema(),items.get(position).getPreguntas(),fecha_pref);
+                    guardarEncuesta(items.get(position).getId_problema(), items.get(position).getPreguntas(), fecha_pref);
 
                     FragmentActivity activity = (FragmentActivity) (view.getContext());
                     FragmentManager fm = activity.getSupportFragmentManager();
@@ -203,20 +203,20 @@ public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.Vi
         return super.getItemId(position);
     }
 
-    public void guardarValidacionClase(String dias,String fecha, String id_validacion){
+    public void guardarValidacionClase(String dias, String fecha, String id_validacion) {
         prefs = mContext.getSharedPreferences(NUM_CUENTA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("fecha", fecha);
         editor.putString("dias", dias);
-        editor.putString("id_val",id_validacion);//codigo de validacion de clases
+        editor.putString("id_val", id_validacion);//codigo de validacion de clases
         editor.apply();
     }
 
-    public void guardarEncuesta(String id_validacion, String preguntas, String fecha){
+    public void guardarEncuesta(String id_validacion, String preguntas, String fecha) {
         prefs = mContext.getSharedPreferences(NUM_CUENTA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("preguntas", preguntas);//preguntas
-        editor.putString("id_val",id_validacion);//codigo de validacio
+        editor.putString("id_val", id_validacion);//codigo de validacio
         editor.putString("fechaP", fecha);
 
         editor.apply();

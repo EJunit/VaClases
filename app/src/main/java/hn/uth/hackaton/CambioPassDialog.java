@@ -157,14 +157,14 @@ public class CambioPassDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void parser(JSONObject response){
+    public void parser(JSONObject response) {
         try {
-            if(response.getString("status").equals("exito")) {
+            if (response.getString("status").equals("exito")) {
                 JSONArray msg = response.getJSONArray("mensajes");
                 Toast.makeText(getContext(), String.valueOf(msg.get(0)), Toast.LENGTH_LONG).show();
                 dialog.cancel();
                 EliminaPreferencias();
-            }else if(response.getString("status").equals("error")){
+            } else if (response.getString("status").equals("error")) {
                 JSONArray msg = response.getJSONArray("mensajes");
                 dialog.cancel();
                 Toast.makeText(getContext(), String.valueOf(msg.get(0)), Toast.LENGTH_LONG).show();
@@ -174,7 +174,7 @@ public class CambioPassDialog extends DialogFragment {
         }
     }
 
-    public void EliminaPreferencias(){
+    public void EliminaPreferencias() {
 
         SharedPreferences prefsEventos = getActivity().getSharedPreferences("Eventos", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorEvetos = prefsEventos.edit();
@@ -185,10 +185,10 @@ public class CambioPassDialog extends DialogFragment {
         SharedPreferences prefsValidacion = getActivity().getSharedPreferences("Validacion", Context.MODE_PRIVATE);
         SharedPreferences.Editor editosValidacion = prefsValidacion.edit();
 
-        SharedPreferences prefsCuenta= getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
+        SharedPreferences prefsCuenta = getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorCuenta = prefsCuenta.edit();
 
-        SharedPreferences prefsAlumno= getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
+        SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
 
         editorEvetos.clear();
@@ -214,8 +214,8 @@ public class CambioPassDialog extends DialogFragment {
         getActivity().finish();
     }
 
-    public void logout(){
-        String url ="http://vaclases.netsti.com/logout";
+    public void logout() {
+        String url = "http://vaclases.netsti.com/logout";
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -226,7 +226,7 @@ public class CambioPassDialog extends DialogFragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -240,17 +240,17 @@ public class CambioPassDialog extends DialogFragment {
         requestQueue.add(req);
     }
 
-    public void parser2(JSONObject response){
+    public void parser2(JSONObject response) {
         try {
-            if (response.getString("status").equals("exito")){
+            if (response.getString("status").equals("exito")) {
                 JSONArray dataMensaje = response.getJSONArray("mensajes");
 
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
 
-            }else if (response.getString("status").equals("error")){
+            } else if (response.getString("status").equals("error")) {
                 JSONArray dataMensaje = response.getJSONArray("mensajes");
 
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
 
 
             }

@@ -7,7 +7,7 @@ public class Eventos {
     private String titulo_evento;
     private String idEvento;
 
-    public Eventos(){
+    public Eventos() {
     }
 
     public String getDescripcion_evento() {

@@ -54,6 +54,8 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
     private SharedPreferences prefsValidacion;
     private SharedPreferences.Editor editosValidacion;
     private String esc_selec;
+    private String depto_select;
+    private String muni_select;
     private NewAdapterValidaciones adaptador;
 
     private String loadNombre() {
@@ -93,7 +95,8 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         prefsValidacion = this.getActivity().getSharedPreferences("Validacion", Context.MODE_PRIVATE);
         editosValidacion = prefsValidacion.edit();
         esc_selec = loadEscuela();
-        Log.i("municipio",loadMuni());
+        depto_select = loadDepto();
+        muni_select =loadMuni();
         conf = new Preferencias(getContext());
 
         ImageView img = (ImageView) view.findViewById(R.id.imgAlumno);
@@ -223,10 +226,9 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
                         JSONObject infoJosn = dataValidaciones.getJSONObject(a);
 
                         try {
-                          /*  */
 
                         if(infoJosn.getString("confirma").equals("0" )){
-                            if(infoJosn.getString("type_name").equals(esc_selec)|| infoJosn.getString("type_name").equals(loadDepto())
+                            if(infoJosn.getString("type_name").equals(esc_selec)|| infoJosn.getString("type_name").equals(depto_select)
                                    || infoJosn.getString("type_name").equals("Todo el Pais")) {
                                 control = infoJosn.getString("tipo");
                                 if (control.equals("1")) {
@@ -238,15 +240,15 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
                                 }
 
                                 adaptador = new NewAdapterValidaciones(itemsAux, getActivity());
-                            }else if(!infoJosn.getString("type_name").equals(esc_selec)|| !infoJosn.getString("type_name").equals(loadDepto())
+                            }else if(!infoJosn.getString("type_name").equals(esc_selec)|| !infoJosn.getString("type_name").equals(depto_select)
                                     || !infoJosn.getString("type_name").equals("Todo el Pais")){
 
-                                int tamaño_depto = loadMuni().length();
+                                int tamaño_depto = muni_select.length();
 
                                 String as =infoJosn.getString("type_name");
                                 String muni = as.substring(0,tamaño_depto);
 
-                                if (muni.equals(loadMuni())){
+                                if (muni.equals(muni_select)){
                                     itemsAux.add(new Validacion(Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("fecha_inicio"),
                                             infoJosn.getString("id"), infoJosn.getString("mensajes")));
                                 }
@@ -259,9 +261,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
                 if(itemsAux.size() <= 0){
                     imgVaciov.setBackgroundResource(R.drawable.vacio);
                     imgVaciov.setPadding(25, 25, 25, 25);
-                }/*else{
-                    imgVaciov.setBackgroundResource(R.drawable.exito);
-                }*/
+                }
 
                 reciclador.setAdapter(adaptador);
             }else if(response.getString("status").equals("vacio")){
