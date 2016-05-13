@@ -99,7 +99,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
             e.printStackTrace();
         }
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha = new SimpleDateFormat("dd-MMMM, yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha = new SimpleDateFormat("dd-MMMM, yyyy - hh:mm a");
         //@SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha2 = new SimpleDateFormat("HH.mm:ss");
         String fecha_inicio = format_fecha.format(d);
         //String d2= format_fecha2.format(d);

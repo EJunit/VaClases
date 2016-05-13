@@ -166,6 +166,7 @@ public class ValidacionClasesDialog extends DialogFragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
 
                                 JSONObject Infofecha;
+                                String respuestas ="";
                                 for (int a = 1; a <= arrayFechas.length(); a++) {
 
                                     try {
@@ -174,17 +175,14 @@ public class ValidacionClasesDialog extends DialogFragment {
                                         String fecha = Infofecha.getString("fecha");
                                         String respuesta = String.valueOf(obj.get(String.valueOf(a)));
 
-                                        SaveValidacion(respuesta, fecha, String.valueOf(a));
-                                        Thread.sleep(200);
+                                        respuestas = respuestas + String.valueOf(a)+","+respuesta+","+fecha+";";
 
-                                    } catch (JSONException | InterruptedException e) {
+                                    } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
 
-                                Toast.makeText(getContext(), "Validaciones Ingresadas, gracias por su aporte", Toast.LENGTH_SHORT).show();
-                                dismiss();
-                                openProfile();
+                                SaveValidacion(respuestas);
                             }
                         })//fin del positive clic
                         .setNegativeButton(android.R.string.no, null).show();
@@ -204,11 +202,13 @@ public class ValidacionClasesDialog extends DialogFragment {
         getActivity().finish();
     }
 
-    public void SaveValidacion(String respuesta, String fecha, String index) {
+    public void SaveValidacion(String respuestas) {
 
         String token = conf.getTokken().replace(" ", "");
 
-        String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "") + "&index=" + index + "&type=1&validacion_id=" + loadIdValidacion() + "&fecha=" + fecha + "&alumno_id=" + loadIdentidadAlumno() + "&respuesta=" + respuesta;
+        String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "")+
+                "&validacion_id=" + loadIdValidacion()+"&alumno_id=" + loadIdentidadAlumno()+"&type=1"+
+                "&respuestas="+respuestas;
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -217,7 +217,9 @@ public class ValidacionClasesDialog extends DialogFragment {
                     String r = response.getString("status");
 
                     if (r.equals("exito")) {
-                        Log.i("validacion realizada", "bien :D");
+                        Toast.makeText(getContext(), "Validaciones Ingresadas, gracias por su aporte", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                        openProfile();
                     } else {
                         Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
                     }
@@ -248,7 +250,7 @@ public class ValidacionClasesDialog extends DialogFragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(req);
-    }
+    }//fin de metodo save
 
     private void busquedaDatos() {
         parser(arrayFechas, r);
@@ -290,7 +292,7 @@ public class ValidacionClasesDialog extends DialogFragment {
                     final String finalId_valor = id_valor;
 
                     if (!ch.isChecked()) {
-                        obj.put(finalId_valor, "2");
+                        obj.put(finalId_valor, "0");
                     }
                     ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -300,7 +302,7 @@ public class ValidacionClasesDialog extends DialogFragment {
                                 if (buttonView.isChecked()) {
                                     obj.put(finalId_valor, "1");
                                 } else {
-                                    obj.put(finalId_valor, "2");
+                                    obj.put(finalId_valor, "0");
                                 }
 
                             } catch (JSONException e) {

@@ -122,19 +122,18 @@ public class ValidacionProblemasDialog extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
+                                String respuestas = "";
                                 for (int a = 1; a <= obj.length(); a++) {
                                     try {
                                         String respuesta = String.valueOf(obj.get(String.valueOf(a)));
-                                        SaveValidacion(respuesta, loadFechaProblema(), String.valueOf(a));
+                                        //SaveValidacion(respuesta, loadFechaProblema(), String.valueOf(a));
+
+                                        respuestas = respuestas + String.valueOf(a)+","+respuesta+","+loadFechaProblema()+";";
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
-
-                                Toast.makeText(getContext(), "Respuestas Ingresadas, gracias por el aporte", Toast.LENGTH_SHORT).show();
-                                dismiss();
-                                openProfile();
-
+                                SaveValidacion(respuestas);
                             }
                         })//fin del positive clic
                         .setNegativeButton(android.R.string.no, null).show();
@@ -165,11 +164,13 @@ public class ValidacionProblemasDialog extends DialogFragment {
         getActivity().finish();
     }
 
-    public void SaveValidacion(String respuesta, String fecha, String index) {
-
+   // public void SaveValidacion(String respuesta, String fecha, String index) {
+   public void SaveValidacion(String respuestas) {
         String token = conf.getTokken().replace(" ", "");
 
-        String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "") + "&index=" + index + "&type=2&validacion_id=" + loadIdValidacion() + "&fecha=" + fecha + "&alumno_id=" + loadIdentidadAlumno() + "&respuesta=" + respuesta;
+        String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "")+
+                "&validacion_id=" + loadIdValidacion()+"&alumno_id=" + loadIdentidadAlumno()+"&type=2"+
+                "&respuestas="+respuestas;
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -178,7 +179,9 @@ public class ValidacionProblemasDialog extends DialogFragment {
                     String r = response.getString("status");
 
                     if (r.equals("exito")) {
-                        Log.i("validacion realizada", "bien :D");
+                        Toast.makeText(getContext(), "Respuestas Ingresadas, gracias por el aporte", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                        openProfile();
                     } else {
                         Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
                     }
@@ -210,7 +213,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(req);
-    }
+    }//fin de la funcion save
 
     @SuppressLint("SetTextI18n")
     public void parser(JSONObject response, LinearLayout r) {
@@ -272,7 +275,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                     //respuesta negativa a la pregunta
                                     try {
-                                        obj.put(finalId_valor, "2");
+                                        obj.put(finalId_valor, "0");
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

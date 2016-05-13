@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ArrayList<String> channels = new ArrayList<>();
-        String escuela = loadEscuela().replace(" ","").replace("é","e").replace("á","a").replace("í","i").replace("ó","o").replace("ú","u");
-        String depto = loadDepto().replace(" ","").replace("é","e").replace("á","a").replace("í","i").replace("ó","o").replace("ú","u");
-        String muni = loadMuni().replace(" ","").replace("é","e").replace("á", "a").replace("í","i").replace("ó","o").replace("ú","u");
+        String escuela = loadEscuela().replace(" ","-").replace("é","e").replace("á","a").replace("í","i").replace("ó","o").replace("ú","u");
+        String depto = loadDepto().replace(" ","-").replace("é","e").replace("á","a").replace("í","i").replace("ó","o").replace("ú","u");
+        String muni = loadMuni().replace(" ","-").replace("é","e").replace("á", "a").replace("í","i").replace("ó","o").replace("ú","u");
 
         channels.add(escuela);
         channels.add(depto);
