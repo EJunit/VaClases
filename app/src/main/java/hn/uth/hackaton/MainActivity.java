@@ -79,16 +79,15 @@ public class MainActivity extends AppCompatActivity {
         channels.add(escuela);
         channels.add(depto);
         channels.add(muni);
-        channels.add("Honduras");
+        channels.add("honduras");
 
-        //ParseUtils.registroChannels(channels);
         //registro de tags
         JSONObject tags = new JSONObject();
         try {
-            tags.put("escuela", escuela);
-            tags.put("departamento", depto);
-            tags.put("municipio", muni);
-            tags.put("pais", "Honduras");
+            tags.put("escuela", escuela.toLowerCase());
+            tags.put("departamento", depto.toLowerCase());
+            tags.put("municipio", muni.toLowerCase());
+            tags.put("pais", "honduras");
         } catch (JSONException e) {
             e.printStackTrace();
         }
