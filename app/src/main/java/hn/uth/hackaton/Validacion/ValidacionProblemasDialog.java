@@ -183,11 +183,8 @@ public class ValidacionProblemasDialog extends DialogFragment {
                         Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    // dialog.cancel();
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @SuppressWarnings("ConstantConditions")
