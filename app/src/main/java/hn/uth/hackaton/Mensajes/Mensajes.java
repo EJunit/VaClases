@@ -8,6 +8,7 @@ public class Mensajes {
     private String titulo;
     private String mensaje;
     private String fecha;
+    private String send_type;
 
     public Mensajes() {
     }
@@ -34,5 +35,13 @@ public class Mensajes {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getSend_type() {
+        return send_type;
+    }
+
+    public void setSend_type(String send_type) {
+        this.send_type = send_type;
     }
 }

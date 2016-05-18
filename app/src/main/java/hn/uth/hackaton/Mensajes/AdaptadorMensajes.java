@@ -26,10 +26,12 @@ public class AdaptadorMensajes extends RecyclerView.Adapter<AdaptadorMensajes.Vi
         public TextView titulo;
         public TextView mensaje;
         public TextView fecha;
+        public TextView send_type;
 
         Typeface robotoSlab_bold = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoSlab-Bold.ttf");
         Typeface Roboto_Light = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
         Typeface roboto_regular = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Regular.ttf");
+
 
         public ViewHolder(View v) {
             super(v);
@@ -39,6 +41,8 @@ public class AdaptadorMensajes extends RecyclerView.Adapter<AdaptadorMensajes.Vi
             mensaje.setTypeface(Roboto_Light);
             fecha = (TextView) v.findViewById(R.id.fecha);
             fecha.setTypeface(roboto_regular);
+            send_type = (TextView) v.findViewById(R.id.txtSend);
+            send_type.setTypeface(roboto_regular);
         }
     }
 
@@ -81,5 +85,6 @@ public class AdaptadorMensajes extends RecyclerView.Adapter<AdaptadorMensajes.Vi
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format_fecha = new SimpleDateFormat("dd-MMMM, yyyy");
         String fecha_inicio = format_fecha.format(d);
         viewHolder.fecha.setText(fecha_inicio);
+        viewHolder.send_type.setText(item.getSend_type());
     }
 }

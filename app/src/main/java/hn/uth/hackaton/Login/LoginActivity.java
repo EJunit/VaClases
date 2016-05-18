@@ -191,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.getString("status").equals("exito")) {
 
                     JSONObject encargado = response.getJSONObject("encargado");
-                    setPadreSelect(encargado.getString("nombre"));
+                    setPadreSelect(encargado.getString("nombre"),encargado.getString("identidad"));
                     JSONArray infoAlumno = encargado.getJSONArray("alumnos");
 
                     for (int a = 0; a < infoAlumno.length(); a++) {
@@ -201,7 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                         setIdentidadAlumno(infoJsonAlumno.getString("id"));
 
                         JSONObject infoJsonEscuela = infoJsonAlumno.getJSONObject("centro_educativo");
-                        setNombreEscuela(infoJsonEscuela.getString("nombre"));
+                        setNombreEscuela(infoJsonEscuela.getString("nombre"),infoJsonEscuela.getString("codigo"));
 
                         JSONObject infoJsonMuni = infoJsonEscuela.getJSONObject("municipio");
 
@@ -229,10 +229,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void setPadreSelect(String nombre) {
+    private void setPadreSelect(String nombre, String id) {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("padre_select", nombre);
+        edit.putString("padre_select_id", id);
         edit.apply();
     }
 
@@ -264,10 +265,11 @@ public class LoginActivity extends AppCompatActivity {
         edit.apply();
     }
 
-    private void setNombreEscuela(String nombre) {
+    private void setNombreEscuela(String nombre, String codigo) {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("nombre_escuela", nombre);
+        edit.putString("codigo_escuela", codigo);
         edit.apply();
     }
 

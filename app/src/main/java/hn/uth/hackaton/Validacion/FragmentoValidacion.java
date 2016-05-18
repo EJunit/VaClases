@@ -52,32 +52,21 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
     Preferencias conf;
     private SharedPreferences prefsValidacion;
     private SharedPreferences.Editor editosValidacion;
-    private String esc_selec;
-    private String depto_select;
-    private String muni_select;
     private NewAdapterValidaciones adaptador;
 
     private String loadNombre() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_alumno", " ");
     }
 
     private String loadIdentidadAlumno() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("identidad_alumno", " ");
     }
-    private String loadEscuela() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno",Context.MODE_PRIVATE);
-        return prefs.getString("nombre_escuela", " ");
-    }
-    private String loadDepto() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("departamento",Context.MODE_PRIVATE);
-        return prefs.getString("depto", " ");
-    }
-    private String loadMuni() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("municipio",Context.MODE_PRIVATE);
 
-        return prefs.getString("muni", " ");
+    private String loadEscuela() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
+        return prefs.getString("nombre_escuela", " ");
     }
 
     public FragmentoValidacion() {
@@ -93,9 +82,6 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
         prefsValidacion = this.getActivity().getSharedPreferences("Validacion", Context.MODE_PRIVATE);
         editosValidacion = prefsValidacion.edit();
-        esc_selec = loadEscuela();
-        depto_select = loadDepto();
-        muni_select =loadMuni();
         conf = new Preferencias(getContext());
 
         ImageView img = (ImageView) view.findViewById(R.id.imgAlumno);
@@ -159,44 +145,44 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
         refreshLayout.setRefreshing(true);
 
-        String token = conf.getTokken().replace("\n","");
+        String token = conf.getTokken().replace("\n", "");
 
-        String url = "http://vaclases.netsti.com/api/validaciones?token="+token.replace(" ","")+"&alumno_id="+loadIdentidadAlumno();
+        String url = "http://vaclases.netsti.com/api/validaciones?token=" + token.replace(" ", "") + "&alumno_id=" + loadIdentidadAlumno();
 
         if (isOnline()) {
-                JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        editosValidacion.putString("f2", response.toString());
-                        editosValidacion.apply();
-                        parser(response);
-                        refreshLayout.setRefreshing(false);
-                    }
-                }, new Response.ErrorListener() {
-                    @SuppressWarnings("ConstantConditions")
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        refreshLayout.setRefreshing(false);
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        HashMap<String, String> headers = new HashMap<>();
-                        headers.put("Content-Type", "application/json");
-                        headers.put("Cookie", conf.getCookie());
-                        return headers;
-                    }
-                };
+            JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    editosValidacion.putString("f2", response.toString());
+                    editosValidacion.apply();
+                    parser(response);
+                    refreshLayout.setRefreshing(false);
+                }
+            }, new Response.ErrorListener() {
+                @SuppressWarnings("ConstantConditions")
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    refreshLayout.setRefreshing(false);
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Cookie", conf.getCookie());
+                    return headers;
+                }
+            };
 
-                    req.setRetryPolicy(new DefaultRetryPolicy(
+            req.setRetryPolicy(new DefaultRetryPolicy(
                     15000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-                queue.add(req);
-        }else {
+            queue.add(req);
+        } else {
             String strJson = prefsValidacion.getString("f2", "NO");
-            if (!strJson.equals("NO")){
+            if (!strJson.equals("NO")) {
                 JSONObject jsonData = null;
                 try {
                     jsonData = new JSONObject(strJson);
@@ -210,7 +196,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         }
     }
 
-    public List<Validacion> parser (JSONObject response){
+    public List<Validacion> parser(JSONObject response) {
         itemsAux = new ArrayList<>();
 
         try {
@@ -220,54 +206,38 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
                 String control;
 
 
-                    for (int a = 0; a < dataValidaciones.length(); a++) {
+                for (int a = 0; a < dataValidaciones.length(); a++) {
 
-                        JSONObject infoJosn = dataValidaciones.getJSONObject(a);
+                    JSONObject infoJosn = dataValidaciones.getJSONObject(a);
 
-                        try {
-
-                        if(infoJosn.getString("confirma").equals("0" )){
-                            if(infoJosn.getString("type_name").equals(esc_selec)|| infoJosn.getString("type_name").equals(depto_select)
-                                   || infoJosn.getString("type_name").equals("Todo el Pais")) {
-                                control = infoJosn.getString("tipo");
-                                if (control.equals("1")) {
-                                    itemsAux.add(new Validacion(infoJosn.getString("fecha_inicio"), infoJosn.getString("fecha_fin"), infoJosn.getString("dias"),
-                                            Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("id")));
-                                } else {
-                                    itemsAux.add(new Validacion(Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("fecha_inicio"),
-                                            infoJosn.getString("id"), infoJosn.getString("mensajes")));
-                                }
-
-                                adaptador = new NewAdapterValidaciones(itemsAux, getActivity());
-                            }else if(!infoJosn.getString("type_name").equals(esc_selec)|| !infoJosn.getString("type_name").equals(depto_select)
-                                    || !infoJosn.getString("type_name").equals("Todo el Pais")){
-
-                                int tamaño_depto = muni_select.length();
-
-                                String as =infoJosn.getString("type_name");
-                                String muni = as.substring(0,tamaño_depto);
-
-                                if (muni.equals(muni_select)){
-                                    itemsAux.add(new Validacion(Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("fecha_inicio"),
-                                            infoJosn.getString("id"), infoJosn.getString("mensajes")));
-                                }
-                            }
+                    try {
+                        control = infoJosn.getString("tipo");
+                        if (control.equals("1")) {
+                            itemsAux.add(new Validacion(infoJosn.getString("fecha_inicio"), infoJosn.getString("fecha_fin"), infoJosn.getString("dias"),
+                                    Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("id")));
+                        } else {
+                            itemsAux.add(new Validacion(Integer.valueOf(infoJosn.getString("tipo")), infoJosn.getString("fecha_inicio"),
+                                    infoJosn.getString("id"), infoJosn.getString("mensajes")));
                         }
-                        } catch (JSONException ignored) {
-                        }
-                    }//termina el for
 
-                if(itemsAux.size() <= 0){
+                        adaptador = new NewAdapterValidaciones(itemsAux, getActivity());
+
+
+                    } catch (JSONException ignored) {
+                    }
+                }//termina el for
+
+                if (itemsAux.size() <= 0) {
                     imgVaciov.setBackgroundResource(R.drawable.vacio);
                     imgVaciov.setPadding(25, 25, 25, 25);
                 }
 
                 reciclador.setAdapter(adaptador);
-            }else if(response.getString("status").equals("vacio")){
+            } else if (response.getString("status").equals("vacio")) {
                 imgVaciov.setBackgroundResource(R.drawable.vacio);
-                imgVaciov.setPadding(25,25,25,25);
-            }else if(response.getString("status").equals("error")){
-                Toast.makeText(getContext(), "Ha caducado su sesión, Debe hacer login nuevamente.",Toast.LENGTH_LONG).show();
+                imgVaciov.setPadding(25, 25, 25, 25);
+            } else if (response.getString("status").equals("error")) {
+                Toast.makeText(getContext(), "Ha caducado su sesión, Debe hacer login nuevamente.", Toast.LENGTH_LONG).show();
                 EliminaPreferencias();
             }
         } catch (JSONException e) {
@@ -292,7 +262,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
     }
 
-    public void EliminaPreferencias(){
+    public void EliminaPreferencias() {
 
         SharedPreferences prefsEventos = getActivity().getSharedPreferences("Eventos", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorEvetos = prefsEventos.edit();
@@ -303,10 +273,10 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         SharedPreferences prefsValidacion = getActivity().getSharedPreferences("Validacion", Context.MODE_PRIVATE);
         SharedPreferences.Editor editosValidacion = prefsValidacion.edit();
 
-        SharedPreferences prefsCuenta= getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
+        SharedPreferences prefsCuenta = getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorCuenta = prefsCuenta.edit();
 
-        SharedPreferences prefsAlumno= getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
+        SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
 
         editorEvetos.clear();
@@ -332,8 +302,8 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         getActivity().finish();
     }
 
-    public void logout(){
-        String url ="http://vaclases.netsti.com/logout";
+    public void logout() {
+        String url = "http://vaclases.netsti.com/logout";
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -344,7 +314,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
             public void onErrorResponse(VolleyError error) {
 
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -358,17 +328,17 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         requestQueue.add(req);
     }
 
-    public void parser2(JSONObject response){
+    public void parser2(JSONObject response) {
         try {
-            if (response.getString("status").equals("exito")){
+            if (response.getString("status").equals("exito")) {
                 JSONArray dataMensaje = response.getJSONArray("mensajes");
 
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
 
-            }else if (response.getString("status").equals("error")){
+            } else if (response.getString("status").equals("error")) {
                 JSONArray dataMensaje = response.getJSONArray("mensajes");
 
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
 
 
             }

@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     Preferencias conf;
 
-    private String loadUser() {
-        SharedPreferences prefs = this.getSharedPreferences("MiCuenta",Context.MODE_PRIVATE);
-        return prefs.getString("username", "numCuenta");
+    private String loadIdPadre() {
+        SharedPreferences prefs = this.getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        return prefs.getString("padre_select_id", " ");
     }
 
     private String loadEscuela() {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
-        return prefs.getString("nombre_escuela", " ");
+        return prefs.getString("codigo_escuela", " ");
     }
     private String loadDepto() {
         SharedPreferences prefs = this.getSharedPreferences("departamento", Context.MODE_PRIVATE);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ArrayList<String> channels = new ArrayList<>();
-        String escuela = loadEscuela().replace(" ","-").replace("é","e").replace("á","a").replace("í","i").replace("ó","o").replace("ú","u");
+        String escuela = loadEscuela();
         String depto = loadDepto().replace(" ","-").replace("é","e").replace("á","a").replace("í","i").replace("ó","o").replace("ú","u");
         String muni = loadMuni().replace(" ","-").replace("é","e").replace("á", "a").replace("í","i").replace("ó","o").replace("ú","u");
 
@@ -84,20 +84,16 @@ public class MainActivity extends AppCompatActivity {
         //registro de tags
         JSONObject tags = new JSONObject();
         try {
-            tags.put("escuela", escuela.toLowerCase());
+            tags.put("escuela", "id-"+escuela);
             tags.put("departamento", depto.toLowerCase());
             tags.put("municipio", muni.toLowerCase());
+            tags.put("encargado", "id-"+loadIdPadre());
             tags.put("pais", "honduras");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         OneSignal.sendTags(tags);
-        //fin de registro de tags de OneSignal
-
-        //ParseUtils.verifyParseConfiguration(this);
-
-        String email = loadUser().replace("\n","").replace(" ","")+"@vaclases.com";
 
         Fragment fragmentoGenerico = new FragmentoTabs();
         fragmentManager = getSupportFragmentManager();

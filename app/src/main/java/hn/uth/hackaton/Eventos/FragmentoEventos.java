@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,9 +56,6 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
     private SharedPreferences prefsEventos;
     private SharedPreferences.Editor editorEvetos;
     private String fechaActual;
-    private String esc_selec;
-    private String depto_select;
-    private String muni_select;
     Date fechaActual2 = null;
     Date fechaEvento2 = null;
 
@@ -71,17 +67,6 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
     private String loadEscuela() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_escuela", " ");
-    }
-
-    private String loadDepto() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("departamento", Context.MODE_PRIVATE);
-        return prefs.getString("depto", " ");
-    }
-
-    private String loadMuni() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("municipio", Context.MODE_PRIVATE);
-
-        return prefs.getString("muni", " ");
     }
 
     public FragmentoEventos() {
@@ -96,10 +81,6 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
 
         prefsEventos = this.getActivity().getSharedPreferences("Eventos", Context.MODE_PRIVATE);
         editorEvetos = prefsEventos.edit();
-        esc_selec = loadEscuela();
-        depto_select = loadDepto();
-        muni_select = loadMuni();
-
         conf = new Preferencias(getContext());
 
         ImageView img_alumno = (ImageView) view.findViewById(R.id.imgAlumno_eventos);
@@ -253,41 +234,16 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
                         assert fechaActual2 != null;
                         if (fechaActual2.before(fechaEvento2)) {
 
-                            if (infoJosn.getString("type_name").equals(esc_selec) || infoJosn.getString("type_name").equals(depto_select)
-                                    || infoJosn.getString("type_name").equals("Todo el Pais")) {
+                            info.setTitulo_evento(infoJosn.getString("evento_nombre"));
+                            info.setDescripcion_evento(infoJosn.getString("evento_descripcion"));
+                            info.setFecha(infoJosn.getString("fecha_evento"));
+                            info.setIdEvento(infoJosn.getString("id"));
+
+                            itemsAux.add(info);
+
+                            adaptador = new AdaptadorEventos(itemsAux, getActivity());
 
 
-                                info.setTitulo_evento(infoJosn.getString("evento_nombre"));
-                                info.setDescripcion_evento(infoJosn.getString("evento_descripcion"));
-                                info.setFecha(infoJosn.getString("fecha_evento"));
-                                info.setIdEvento(infoJosn.getString("id"));
-
-                                itemsAux.add(info);
-
-                                adaptador = new AdaptadorEventos(itemsAux, getActivity());
-
-                            } else if (!infoJosn.getString("type_name").equals(esc_selec) || !infoJosn.getString("type_name").equals(depto_select)
-                                    || !infoJosn.getString("type_name").equals("Todo el Pais")) {
-
-                                int tamaño_depto = muni_select.length();
-
-                                String as = infoJosn.getString("type_name");
-                                String muni = as.substring(0, tamaño_depto);
-
-
-                                if (muni.equals(muni_select)) {
-
-                                    info.setTitulo_evento(infoJosn.getString("evento_nombre"));
-                                    info.setDescripcion_evento(infoJosn.getString("evento_descripcion"));
-                                    info.setFecha(infoJosn.getString("fecha_evento"));
-                                    info.setIdEvento(infoJosn.getString("id"));
-
-                                    itemsAux.add(info);
-
-                                    adaptador = new AdaptadorEventos(itemsAux, getActivity());
-                                }
-
-                            }
                         }
                     } catch (JSONException ignored) {
                     }

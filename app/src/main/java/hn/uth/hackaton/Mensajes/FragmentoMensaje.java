@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,13 +57,10 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
     private SharedPreferences prefsMensajes;
     private SharedPreferences.Editor editorMensajes;
     ArrayList<Mensajes> data;
-    private String esc_selec;
-    private String depto_select;
     private String fechaActual;
     Calendar calendar;
     Date fechaActual2;
     Date fechaMensaje2;
-    private String muni_select;
 
     private String loadNombre() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -75,23 +71,6 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("nombre_escuela", " ");
     }
-
-    private String loadPadreSelect() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-        return prefs.getString("padre_select", " ");
-    }
-
-    private String loadDepto() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("departamento", Context.MODE_PRIVATE);
-        return prefs.getString("depto", " ");
-    }
-
-    private String loadMuni() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("municipio", Context.MODE_PRIVATE);
-
-        return prefs.getString("muni", " ");
-    }
-
 
     public FragmentoMensaje() {
     }
@@ -106,9 +85,6 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
 
         prefsMensajes = this.getActivity().getSharedPreferences("Mensajes", Context.MODE_PRIVATE);
         editorMensajes = prefsMensajes.edit();
-        esc_selec = loadEscuela();
-        depto_select = loadDepto();
-        muni_select = loadMuni();
 
         Typeface roboto_condensed = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Condensed.ttf");
 
@@ -266,39 +242,17 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
 
                         assert fechaActual2 != null;
                         if (fechaActual2.before(calendar.getTime())) {
-                            if (infoJosn.getString("type_name").equals(loadPadreSelect()) ||
-                                    infoJosn.getString("type_name").equals(esc_selec) || infoJosn.getString("type_name").equals(depto_select)
-                                    || infoJosn.getString("type_name").equals("Todo el Pais")) {
 
-                                info.setTitulo(infoJosn.getString("titulo"));
-                                info.setMensaje(infoJosn.getString("mensaje"));
-                                info.setFecha(infoJosn.getString("fecha"));
+                            info.setTitulo(infoJosn.getString("titulo"));
+                            info.setMensaje(infoJosn.getString("mensaje"));
+                            info.setFecha(infoJosn.getString("fecha"));
+                            info.setSend_type(infoJosn.getString("type_name"));
 
-                                itemsAux.add(info);
+                            itemsAux.add(info);
 
-                                adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
-
-                            } else if (!infoJosn.getString("type_name").equals(loadPadreSelect()) ||
-                                    !infoJosn.getString("type_name").equals(esc_selec) || !infoJosn.getString("type_name").equals(depto_select)
-                                    || !infoJosn.getString("type_name").equals("Todo el Pais")) {
-
-                                int tamaño_depto = muni_select.length();
-
-                                String as = infoJosn.getString("type_name");
-                                String muni = as.substring(0, tamaño_depto);
-
-                                if (muni.equals(muni_select)) {
-                                    info.setTitulo(infoJosn.getString("titulo"));
-                                    info.setMensaje(infoJosn.getString("mensaje"));
-                                    info.setFecha(infoJosn.getString("fecha"));
-
-                                    itemsAux.add(info);
-
-                                    adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
-                                }
+                            adaptador = new AdaptadorMensajes(getActivity(), itemsAux);
 
 
-                            }
                         }
                     } catch (JSONException ignored) {
                     }
