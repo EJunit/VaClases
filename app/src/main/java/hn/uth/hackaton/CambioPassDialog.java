@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -206,12 +207,12 @@ public class CambioPassDialog extends DialogFragment {
         editorAlumno.clear();
         editorAlumno.apply();
 
-        logout();
-
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);
         getActivity().finish();
+
+        logout();
     }
 
     public void logout() {
@@ -219,7 +220,7 @@ public class CambioPassDialog extends DialogFragment {
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                parser2(response);
+                Log.i("Session", "Session Close");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -238,25 +239,6 @@ public class CambioPassDialog extends DialogFragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(req);
-    }
-
-    public void parser2(JSONObject response) {
-        try {
-            if (response.getString("status").equals("exito")) {
-                JSONArray dataMensaje = response.getJSONArray("mensajes");
-
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
-
-            } else if (response.getString("status").equals("error")) {
-                JSONArray dataMensaje = response.getJSONArray("mensajes");
-
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
-
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 }

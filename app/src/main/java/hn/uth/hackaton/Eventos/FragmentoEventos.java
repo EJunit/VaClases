@@ -238,6 +238,7 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
                             info.setDescripcion_evento(infoJosn.getString("evento_descripcion"));
                             info.setFecha(infoJosn.getString("fecha_evento"));
                             info.setIdEvento(infoJosn.getString("id"));
+                            info.setType_name(infoJosn.getString("type_name"));
 
                             itemsAux.add(info);
 

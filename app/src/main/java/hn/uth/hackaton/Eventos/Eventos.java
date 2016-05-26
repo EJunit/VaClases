@@ -6,6 +6,7 @@ public class Eventos {
     private String fecha;
     private String titulo_evento;
     private String idEvento;
+    private String type_name;
 
     public Eventos() {
     }
@@ -40,5 +41,13 @@ public class Eventos {
 
     public String getIdEvento() {
         return idEvento;
+    }
+
+    public String getType_name() {
+        return type_name;
+    }
+
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 }

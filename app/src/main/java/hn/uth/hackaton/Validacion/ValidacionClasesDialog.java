@@ -2,6 +2,7 @@ package hn.uth.hackaton.Validacion;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -203,7 +204,8 @@ public class ValidacionClasesDialog extends DialogFragment {
     }
 
     public void SaveValidacion(String respuestas) {
-
+        final ProgressDialog dialog = ProgressDialog.show(getContext(), "", "Guardando...");
+        dialog.show();
         String token = conf.getTokken().replace(" ", "");
 
         String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "")+
@@ -216,12 +218,16 @@ public class ValidacionClasesDialog extends DialogFragment {
                 try {
                     String r = response.getString("status");
 
-                    if (r.equals("exito")) {
-                        Toast.makeText(getContext(), "Validaciones Ingresadas, gracias por su aporte", Toast.LENGTH_SHORT).show();
-                        dismiss();
-                        openProfile();
-                    } else {
-                        Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
+                    switch (r) {
+                        case "exito":
+                            dialog.hide();
+                            Toast.makeText(getContext(), "Validaciones Ingresadas, gracias por su aporte", Toast.LENGTH_SHORT).show();
+                            dismiss();
+                            openProfile();
+                            break;
+                        default:
+                            Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
+                            break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

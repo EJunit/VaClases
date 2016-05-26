@@ -34,6 +34,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
         public TextView actividad;
         public TextView nombre;
         public TextView fecha;
+        public TextView send_type;
 
         Typeface robotoSlab_bold = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoSlab-Bold.ttf");
         Typeface roboto_regular = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Regular.ttf");
@@ -47,6 +48,8 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
             actividad.setTypeface(Roboto_Light);
             fecha = (TextView) v.findViewById(R.id.txtfechaEvento);
             fecha.setTypeface(roboto_regular);
+            send_type = (TextView) v.findViewById(R.id.txtSend);
+            send_type.setTypeface(roboto_regular);
             v.setOnClickListener(this);
 
         }
@@ -89,6 +92,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
 
         viewHolder.actividad.setText(item.getDescripcion_evento());
         viewHolder.nombre.setText(item.getTitulo_evento());
+        viewHolder.send_type.setText(item.getType_name());
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date d = null;

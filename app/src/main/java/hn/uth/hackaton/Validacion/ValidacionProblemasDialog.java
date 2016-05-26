@@ -2,6 +2,7 @@ package hn.uth.hackaton.Validacion;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -166,6 +167,8 @@ public class ValidacionProblemasDialog extends DialogFragment {
 
    // public void SaveValidacion(String respuesta, String fecha, String index) {
    public void SaveValidacion(String respuestas) {
+       final ProgressDialog dialog = ProgressDialog.show(getContext(), "", "Guardando...");
+       dialog.show();
         String token = conf.getTokken().replace(" ", "");
 
         String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "")+
@@ -178,12 +181,17 @@ public class ValidacionProblemasDialog extends DialogFragment {
                 try {
                     String r = response.getString("status");
 
-                    if (r.equals("exito")) {
-                        Toast.makeText(getContext(), "Respuestas Ingresadas, gracias por el aporte", Toast.LENGTH_SHORT).show();
-                        dismiss();
-                        openProfile();
-                    } else {
-                        Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
+                    switch (r) {
+                        case "exito":
+                            dialog.hide();
+                            Toast.makeText(getContext(), "Respuestas Ingresadas, gracias por el aporte", Toast.LENGTH_SHORT).show();
+                            dismiss();
+                            openProfile();
+                            break;
+                        default:
+                            dialog.hide();
+                            Toast.makeText(getContext(), "error al confirmar", Toast.LENGTH_SHORT).show();
+                            break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -248,39 +256,44 @@ public class ValidacionProblemasDialog extends DialogFragment {
                         rb[i] = new RadioButton(getContext());
                         rg.addView(rb[i]);
 
-                        if (i == 0) {
-                            rb[i].setText("SI");
-                            rb[i].setTypeface(Roboto_Light);
-                            rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
-                            final String finalId_valor = id_valor;
-                            rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                    //respuesta positiva a la pregunta
-                                    try {
-                                        obj.put(finalId_valor, "1");
+                        switch (i) {
+                            case 0: {
+                                rb[i].setText("SI");
+                                rb[i].setTypeface(Roboto_Light);
+                                rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
+                                final String finalId_valor = id_valor;
+                                rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                        //respuesta positiva a la pregunta
+                                        try {
+                                            obj.put(finalId_valor, "1");
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            });
-                        } else {
-                            rb[i].setText("NO");
-                            rb[i].setTypeface(Roboto_Light);
-                            final String finalId_valor = id_valor;
-                            rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
-                            rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                    //respuesta negativa a la pregunta
-                                    try {
-                                        obj.put(finalId_valor, "0");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                });
+                                break;
+                            }
+                            default: {
+                                rb[i].setText("NO");
+                                rb[i].setTypeface(Roboto_Light);
+                                final String finalId_valor = id_valor;
+                                rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
+                                rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                        //respuesta negativa a la pregunta
+                                        try {
+                                            obj.put(finalId_valor, "0");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                                break;
+                            }
                         }
 
                     }

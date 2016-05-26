@@ -53,37 +53,64 @@
             android:layout_gravity="clip_horizontal"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_below="@+id/linearLayout"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="3dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/txtDescEvento"
+            android:layout_below="@+id/txtDescEvento"
             android:layout_marginBottom="5dp"
             android:background="@color/sombra"
-            android:id="@+id/linearLayout2"
-            android:layout_below="@+id/txtDescEvento"
-            android:layout_alignParentRight="true">
+            android:paddingLeft="5dp"
+            android:paddingRight="3dp">
+
+            <ImageView
+                android:id="@+id/imgSend"
+                android:layout_width="20sp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/send_type"
+                android:paddingLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/txtSend"
+                android:layout_gravity="center"
+                android:paddingTop="2dp"
+                android:paddingLeft="5dp" />
+
+            <TextView
+                android:id="@+id/txtguion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="--"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/txtfechaEvento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="12sp"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
 
             <ImageView
-                android:layout_width="24sp"
+                android:id="@+id/imgCalendario"
+                android:layout_width="15sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/fecha"
-                android:id="@+id/imgCalendarioEvento"
-                android:contentDescription="Alumno" />
+                android:contentDescription="Alumno"
+                android:src="@drawable/fecha" />
         </LinearLayout>
 
     </RelativeLayout>
