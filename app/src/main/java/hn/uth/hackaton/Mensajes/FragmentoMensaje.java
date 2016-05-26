@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hn.uth.hackaton.Const;
 import hn.uth.hackaton.Preferencias;
 import hn.uth.hackaton.R;
 
@@ -61,6 +62,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
     Calendar calendar;
     Date fechaActual2;
     Date fechaMensaje2;
+    Const ip = new Const();
 
     private String loadNombre() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -154,7 +156,7 @@ public class FragmentoMensaje extends Fragment implements SwipeRefreshLayout.OnR
 
         refreshLayoutM.setRefreshing(true);
 
-        String url = "http://vaclases.netsti.com/api/mensajes?token=" + conf.getTokken();
+        String url = ip.getIp()+"api/mensajes?token=" + conf.getTokken();
 
         if (isOnline()) {
 

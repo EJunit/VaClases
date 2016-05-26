@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hn.uth.hackaton.Const;
 import hn.uth.hackaton.Login.LoginActivity;
 import hn.uth.hackaton.Preferencias;
 import hn.uth.hackaton.R;
@@ -55,6 +56,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
     private SharedPreferences prefsValidacion;
     private SharedPreferences.Editor editosValidacion;
     private NewAdapterValidaciones adaptador;
+    Const ip = new Const();
 
     private String loadNombre() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -149,7 +151,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
         String token = conf.getTokken().replace("\n", "");
 
-        String url = "http://vaclases.netsti.com/api/validaciones?token=" + token.replace(" ", "") + "&alumno_id=" + loadIdentidadAlumno();
+        String url = ip.getIp()+"api/validaciones?token=" + token.replace(" ", "") + "&alumno_id=" + loadIdentidadAlumno();
 
         if (isOnline()) {
             JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
@@ -310,8 +312,9 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         getActivity().finish();
     }
 
+
     public void logout() {
-        String url = "http://vaclases.netsti.com/logout";
+        String url = ip.getIp()+"logout";
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

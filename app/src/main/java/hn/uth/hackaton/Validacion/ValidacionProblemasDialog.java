@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import hn.uth.hackaton.Const;
 import hn.uth.hackaton.MainActivity;
 import hn.uth.hackaton.Preferencias;
 import hn.uth.hackaton.R;
@@ -48,6 +49,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
     Typeface robotoSlab_bold;
     JSONObject obj = new JSONObject();
     LinearLayout r;
+    Const ip = new Const();
     private Preferencias conf;
 
     public ValidacionProblemasDialog() {
@@ -171,7 +173,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
        dialog.show();
         String token = conf.getTokken().replace(" ", "");
 
-        String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "")+
+        String url = ip.getIp()+"api/confirma?token=" + token.replace("\n", "")+
                 "&validacion_id=" + loadIdValidacion()+"&alumno_id=" + loadIdentidadAlumno()+"&type=2"+
                 "&respuestas="+respuestas;
 

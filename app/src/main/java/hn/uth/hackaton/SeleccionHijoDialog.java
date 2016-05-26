@@ -44,6 +44,7 @@ public class SeleccionHijoDialog extends DialogFragment {
     Preferencias conf;
     Typeface Roboto_Light;
     private int cantHijo;
+    Const ip = new Const();
 
     private void setNombreAlumno(String nombre) {
         SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -106,7 +107,7 @@ public class SeleccionHijoDialog extends DialogFragment {
         r = (LinearLayout) v.findViewById(R.id.LinearHijo);
         conf = new Preferencias(getContext());
 
-        String url = "http://vaclases.netsti.com/api/encargado?token=" + conf.getTokken();
+        String url = ip.getIp()+"api/encargado?token=" + conf.getTokken();
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override

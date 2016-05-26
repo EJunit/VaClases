@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import hn.uth.hackaton.Const;
 import hn.uth.hackaton.MainActivity;
 import hn.uth.hackaton.Preferencias;
 import hn.uth.hackaton.R;
@@ -55,7 +56,7 @@ public class ValidacionClasesDialog extends DialogFragment {
     JSONArray arrayFechas = new JSONArray();
     private Preferencias conf;
     //private ProgressDialog dialog;
-
+    Const ip = new Const();
 
     public ValidacionClasesDialog() {
     }
@@ -208,7 +209,7 @@ public class ValidacionClasesDialog extends DialogFragment {
         dialog.show();
         String token = conf.getTokken().replace(" ", "");
 
-        String url = "http://vaclases.netsti.com/api/confirma?token=" + token.replace("\n", "")+
+        String url = ip.getIp()+"api/confirma?token=" + token.replace("\n", "")+
                 "&validacion_id=" + loadIdValidacion()+"&alumno_id=" + loadIdentidadAlumno()+"&type=1"+
                 "&respuestas="+respuestas;
 
