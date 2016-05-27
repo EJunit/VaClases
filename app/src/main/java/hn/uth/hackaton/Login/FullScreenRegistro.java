@@ -40,7 +40,6 @@ public class FullScreenRegistro extends DialogFragment {
     private EditText edtTelefono;
     private EditText edtTelefono2;
     ProgressDialog dialog;
-    Const ip = new Const();
 
     public FullScreenRegistro() {
         // Constructor publico vacio
@@ -116,7 +115,7 @@ public class FullScreenRegistro extends DialogFragment {
         } else {
 
             dialog = ProgressDialog.show(getContext(), "", "Cargando contenido");
-            String url = ip.getIp()+"registrar/" + username + "/" + usertel;
+            String url = Const.ip+"registrar/" + username + "/" + usertel;
 
             JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
                 @Override

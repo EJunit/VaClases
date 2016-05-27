@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +43,6 @@ public class SeleccionHijoDialog extends DialogFragment {
     Preferencias conf;
     Typeface Roboto_Light;
     private int cantHijo;
-    Const ip = new Const();
 
     private void setNombreAlumno(String nombre) {
         SharedPreferences prefs = this.getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -107,7 +105,7 @@ public class SeleccionHijoDialog extends DialogFragment {
         r = (LinearLayout) v.findViewById(R.id.LinearHijo);
         conf = new Preferencias(getContext());
 
-        String url = ip.getIp()+"api/encargado?token=" + conf.getTokken();
+        String url = Const.ip+"api/encargado?token=" + conf.getTokken();
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override

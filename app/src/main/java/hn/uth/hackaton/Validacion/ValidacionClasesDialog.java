@@ -55,8 +55,6 @@ public class ValidacionClasesDialog extends DialogFragment {
     JSONObject obj = new JSONObject();
     JSONArray arrayFechas = new JSONArray();
     private Preferencias conf;
-    //private ProgressDialog dialog;
-    Const ip = new Const();
 
     public ValidacionClasesDialog() {
     }
@@ -209,7 +207,7 @@ public class ValidacionClasesDialog extends DialogFragment {
         dialog.show();
         String token = conf.getTokken().replace(" ", "");
 
-        String url = ip.getIp()+"api/confirma?token=" + token.replace("\n", "")+
+        String url = Const.ip+"api/confirma?token=" + token.replace("\n", "")+
                 "&validacion_id=" + loadIdValidacion()+"&alumno_id=" + loadIdentidadAlumno()+"&type=1"+
                 "&respuestas="+respuestas;
 

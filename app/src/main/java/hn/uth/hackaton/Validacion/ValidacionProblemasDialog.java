@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -49,7 +48,6 @@ public class ValidacionProblemasDialog extends DialogFragment {
     Typeface robotoSlab_bold;
     JSONObject obj = new JSONObject();
     LinearLayout r;
-    Const ip = new Const();
     private Preferencias conf;
 
     public ValidacionProblemasDialog() {
@@ -173,7 +171,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
        dialog.show();
         String token = conf.getTokken().replace(" ", "");
 
-        String url = ip.getIp()+"api/confirma?token=" + token.replace("\n", "")+
+        String url = Const.ip+"api/confirma?token=" + token.replace("\n", "")+
                 "&validacion_id=" + loadIdValidacion()+"&alumno_id=" + loadIdentidadAlumno()+"&type=2"+
                 "&respuestas="+respuestas;
 

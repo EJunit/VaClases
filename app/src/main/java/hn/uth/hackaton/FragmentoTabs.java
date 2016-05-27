@@ -51,7 +51,6 @@ public class FragmentoTabs extends Fragment {
         pestanas.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF"));
         appBar.addView(pestanas);
 
-
     }
 
     private void poblarViewPager(ViewPager viewPager) {

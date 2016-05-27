@@ -59,7 +59,6 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
     private String fechaActual;
     Date fechaActual2 = null;
     Date fechaEvento2 = null;
-    Const ip = new Const();
 
     private String loadNombre() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -152,7 +151,7 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
         imgVacioe.setBackgroundResource(R.drawable.exito);
         refreshLayoutE.setRefreshing(true);
 
-        String url = ip.getIp()+"api/eventos?token=" + conf.getTokken();
+        String url = Const.ip+"api/eventos?token=" + conf.getTokken();
         if (isOnline()) {
             JsonObjectRequest req2 = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
                 @Override

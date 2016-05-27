@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog dialog;
     Preferencias conf;
     private String base64;
-    Const ip = new Const();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                 byte[] data = KEY.getBytes("UTF-8");
                 conf.setCedulaPadre(username);
                 base64 = Base64.encodeToString(data, Base64.DEFAULT);
-                url = ip.getIp()+"login/" + username + "?password=" + base64;
+                url = Const.ip+"login/" + username + "?password=" + base64;
                 conf.setTokken(base64);
 
             } catch (UnsupportedEncodingException e) {

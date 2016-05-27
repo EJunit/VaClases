@@ -28,14 +28,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +54,6 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
     private SharedPreferences prefsValidacion;
     private SharedPreferences.Editor editosValidacion;
     private NewAdapterValidaciones adaptador;
-    Const ip = new Const();
 
     private String loadNombre() {
         SharedPreferences prefs = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
@@ -151,7 +148,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
         String token = conf.getTokken().replace("\n", "");
 
-        String url = ip.getIp()+"api/validaciones?token=" + token.replace(" ", "") + "&alumno_id=" + loadIdentidadAlumno();
+        String url = Const.ip+"api/validaciones?token=" + token.replace(" ", "") + "&alumno_id=" + loadIdentidadAlumno();
 
         if (isOnline()) {
             JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
@@ -298,12 +295,6 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         editorAlumno.clear();
         editorAlumno.apply();
 
-        Collection<String> tempList = new ArrayList<>();
-        tempList.add("escuela");
-        tempList.add("departamento");
-        tempList.add("municipio");
-        OneSignal.deleteTags(tempList);
-
         logout();
 
         Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -314,7 +305,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
 
     public void logout() {
-        String url = ip.getIp()+"logout";
+        String url = Const.ip+"logout";
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager;
     Preferencias conf;
-    Const ip = new Const();
 
     private String loadIdPadre() {
         SharedPreferences prefs = this.getSharedPreferences("alumno",Context.MODE_PRIVATE);
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logout(){
-        String url = ip.getIp()+"logout";
+        String url = Const.ip+"logout";
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

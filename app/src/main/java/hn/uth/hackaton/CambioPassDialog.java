@@ -44,7 +44,6 @@ public class CambioPassDialog extends DialogFragment {
     private EditText new_pass;
     private EditText confirm_pass;
     ProgressDialog dialog;
-    Const ip = new Const();
 
     public CambioPassDialog() {
     }
@@ -217,7 +216,7 @@ public class CambioPassDialog extends DialogFragment {
     }
 
     public void logout() {
-        String url = ip+"logout";
+        String url = Const.ip+"logout";
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
