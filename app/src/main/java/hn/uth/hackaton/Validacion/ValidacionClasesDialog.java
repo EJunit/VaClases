@@ -158,7 +158,7 @@ public class ValidacionClasesDialog extends DialogFragment {
             public void onClick(View v) {
 
                 new AlertDialog.Builder(getContext()).setTitle("Confirmación")
-                        .setMessage("¿Deséas confirmar tus respuestas?, no podras cambiarlas luego, recuerda que las las casillas" +
+                        .setMessage("¿Deséas confirmar tus respuestas?, no podras cambiarlas luego, recuerda que las casillas" +
                                 "que no marques, se tomaran como días en los que no hubo clases.")
                         .setIcon(R.drawable.info_dialog)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

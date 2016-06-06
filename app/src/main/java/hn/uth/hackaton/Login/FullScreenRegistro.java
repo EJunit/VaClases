@@ -108,11 +108,13 @@ public class FullScreenRegistro extends DialogFragment {
         final String usertel = edtTelefono.getText().toString().trim();
         String usertel2 = edtTelefono2.getText().toString().trim();
 
-        if (username.isEmpty() || usertel.isEmpty()) {
+        if (username.isEmpty() || usertel.isEmpty() ) {
             Toast.makeText(getContext(), "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
         } else if (!Objects.equals(usertel, usertel2)) {
             Toast.makeText(getContext(), "Los numeros telefonicos no son iguales", Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (usertel.length() <= 7){
+            Toast.makeText(getContext(), "Ingrese un numero de telefono valido", Toast.LENGTH_SHORT).show();
+        }else {
 
             dialog = ProgressDialog.show(getContext(), "", "Cargando contenido");
             String url = Const.ip+"registrar/" + username + "/" + usertel;

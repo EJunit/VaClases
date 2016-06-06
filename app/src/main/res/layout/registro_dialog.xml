@@ -9,7 +9,7 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center_vertical"
         android:scaleType="fitStart"
-        android:src="@drawable/fondologin2" />
+        android:src="@drawable/fondologin2"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -23,7 +23,8 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="50dp"
         android:layout_below="@+id/imageViewLogo"
-        android:hint="Número de identidad" />
+        android:hint="@string/n_mero_de_identidad" />
+
 
     <EditText
         android:layout_width="match_parent"
@@ -36,7 +37,7 @@
         android:background="@drawable/style_edittext"
         android:layout_marginTop="20dp"
         android:id="@+id/edttel"
-        android:hint="Número telefónico"
+        android:hint="@string/n_mero_telef_nico"
         android:layout_below="@+id/edtcedula"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -52,7 +53,7 @@
         android:background="@drawable/style_edittext"
         android:layout_marginTop="20dp"
         android:id="@+id/edttel2"
-        android:hint="Confirme su número telefónico"
+        android:hint="@string/confirme_su_n_mero_telef_nico"
         android:layout_below="@+id/edttel"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

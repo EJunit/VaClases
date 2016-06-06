@@ -35,4 +35,10 @@
     <string name="txtTituloDialogEvento">Confirma la participación de tu hijo al evento</string>
     <string name="old_pass">Contraseña anterior</string>
     <string name="btnCambioPass">Cambiar Contraseña</string>
+    <string name="n_mero_de_identidad">Número de identidad</string>
+    <string name="n_mero_telef_nico">Número telefónico</string>
+    <string name="confirme_su_n_mero_telef_nico">Confirme su número telefónico</string>
+    <string name="identidad_de_su_hijo">Identidad de su hijo</string>
+    <string name="txt_bienvenida_login">Bienvenido a la plataforma VaClases, para poder ingresar en un futuro, su usuario sera su número de identidad, su password por default es su número telefónico, podra cambiarlo dentro de la plataforma si desea.</string>
+    <string name="registro_exitoso_a_la_plataforma">Registro exitoso a la plataforma</string>
 </resources>
