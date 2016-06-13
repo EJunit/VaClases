@@ -2,7 +2,6 @@ package hn.uth.hackaton.Validacion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -39,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 import hn.uth.hackaton.Const;
-import hn.uth.hackaton.Login.LoginActivity;
 import hn.uth.hackaton.Preferencias;
 import hn.uth.hackaton.R;
 
@@ -148,7 +146,7 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
 
         String token = conf.getTokken().replace("\n", "");
 
-        String url = Const.ip+"api/validaciones?token=" + token.replace(" ", "") + "&alumno_id=" + loadIdentidadAlumno();
+        String url = Const.ip + "api/validaciones?token=" + token.replace(" ", "") + "&alumno_id=" + loadIdentidadAlumno();
 
         if (isOnline()) {
             JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
@@ -239,7 +237,6 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
                 imgVaciov.setPadding(25, 25, 25, 25);
             } else if (response.getString("status").equals("error")) {
                 Toast.makeText(getContext(), "Ha caducado su sesión, Debe hacer login nuevamente.", Toast.LENGTH_LONG).show();
-                EliminaPreferencias();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -262,90 +259,4 @@ public class FragmentoValidacion extends Fragment implements SwipeRefreshLayout.
         return netInfo != null && netInfo.isConnectedOrConnecting();
 
     }
-
-    public void EliminaPreferencias() {
-
-        SharedPreferences prefsEventos = getActivity().getSharedPreferences("Eventos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editorEvetos = prefsEventos.edit();
-
-        SharedPreferences prefsMensajes = getActivity().getSharedPreferences("Mensajes", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editorMensajes = prefsMensajes.edit();
-
-        SharedPreferences prefsValidacion = getActivity().getSharedPreferences("Validacion", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editosValidacion = prefsValidacion.edit();
-
-        SharedPreferences prefsCuenta = getActivity().getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editorCuenta = prefsCuenta.edit();
-
-        SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
-
-        editorEvetos.clear();
-        editorEvetos.apply();
-
-        editorMensajes.clear();
-        editorMensajes.apply();
-
-        editosValidacion.clear();
-        editosValidacion.apply();
-
-        editorCuenta.clear();
-        editorCuenta.apply();
-
-        editorAlumno.clear();
-        editorAlumno.apply();
-
-        logout();
-
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        this.startActivity(intent);
-        getActivity().finish();
     }
-
-
-    public void logout() {
-        String url = Const.ip+"logout";
-        JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                parser2(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Cookie", conf.getCookie());
-                return headers;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(req);
-    }
-
-    public void parser2(JSONObject response) {
-        try {
-            if (response.getString("status").equals("exito")) {
-                JSONArray dataMensaje = response.getJSONArray("mensajes");
-
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
-
-            } else if (response.getString("status").equals("error")) {
-                JSONArray dataMensaje = response.getJSONArray("mensajes");
-
-                Toast.makeText(getContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
-
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-}

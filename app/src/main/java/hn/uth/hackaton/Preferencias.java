@@ -52,7 +52,7 @@ public class Preferencias {
     }
 
     public String getCedulaPadre() {
-        return getSettingsCuenta().getString(KEY_CEDULA, " ");
+        return getSettingsCuenta().getString(KEY_CEDULA, "padre");
     }
 
     public void setCedulaPadre(String user) {

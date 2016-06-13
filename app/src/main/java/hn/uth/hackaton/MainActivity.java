@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Preferencias conf;
 
     private String loadIdPadre() {
-        SharedPreferences prefs = this.getSharedPreferences("alumno",Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("padre_select_id", " ");
     }
 
@@ -48,10 +48,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         return prefs.getString("codigo_escuela", " ");
     }
+
     private String loadDepto() {
         SharedPreferences prefs = this.getSharedPreferences("departamento", Context.MODE_PRIVATE);
         return prefs.getString("depto", " ");
     }
+
     private String loadMuni() {
         SharedPreferences prefs = this.getSharedPreferences("municipio", Context.MODE_PRIVATE);
         return prefs.getString("muni", " ");
@@ -71,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
-        ArrayList<String> channels = new ArrayList<>();
+        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") ArrayList<String> channels = new ArrayList<>();
         String escuela = loadEscuela();
-        String depto = loadDepto().replace(" ","-").replace("é","e").replace("á","a").replace("í","i").replace("ó","o").replace("ú","u");
-        String muni = loadMuni().replace(" ","-").replace("é","e").replace("á", "a").replace("í","i").replace("ó","o").replace("ú","u");
+        String depto = loadDepto().replace(" ", "-").replace("é", "e").replace("á", "a").replace("í", "i").replace("ó", "o").replace("ú", "u");
+        String muni = loadMuni().replace(" ", "-").replace("é", "e").replace("á", "a").replace("í", "i").replace("ó", "o").replace("ú", "u");
 
         channels.add(escuela);
         channels.add(depto);
@@ -84,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
         //registro de tags
         JSONObject tags = new JSONObject();
         try {
-            tags.put("escuela", "id-"+escuela);
+            tags.put("escuela", "id-" + escuela);
             tags.put("departamento", depto.toLowerCase());
             tags.put("municipio", muni.toLowerCase());
-            tags.put("encargado", "id-"+loadIdPadre());
+            tags.put("encargado", "id-" + loadIdPadre());
             tags.put("pais", "honduras");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-       // client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        // client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -122,29 +124,44 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_cambio_pass) {
-            FragmentActivity activity = this;
-            FragmentManager fm = activity.getSupportFragmentManager();
-            CambioPassDialog alertDialog = new CambioPassDialog();
-            alertDialog.show(fm, "CambioPassDialog");
-        } else if (id == R.id.action_salir) {
-            if(isOnline()){
-                EliminaPreferencias();
-            }else{
-             Toast.makeText(this,"Es necesaria una conexión a internet para cerrar sesión",Toast.LENGTH_LONG).show();
+        switch (id) {
+            case R.id.action_cambio_pass: {
+                FragmentActivity activity = this;
+                FragmentManager fm = activity.getSupportFragmentManager();
+                CambioPassDialog alertDialog = new CambioPassDialog();
+                alertDialog.show(fm, "CambioPassDialog");
+                break;
             }
-        } else if (id == R.id.hijo) {
-            FragmentManager fm = this.getSupportFragmentManager();
-            SeleccionHijoDialog alertDialog = new SeleccionHijoDialog();
-            alertDialog.show(fm, "SeleccionHijoDialog");
-            return true;
+            case R.id.action_salir:
+                if (isOnline()) {
+                    EliminaPreferencias();
+                } else {
+                    Toast.makeText(this, "Es necesaria una conexión a internet para cerrar sesión", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.hijo: {
+                FragmentManager fm = this.getSupportFragmentManager();
+                SeleccionHijoDialog alertDialog = new SeleccionHijoDialog();
+                alertDialog.show(fm, "SeleccionHijoDialog");
+                return true;
+            }
+            /*case R.id.action_info:
+                FragmentManager fm = this.getSupportFragmentManager();
+                ContactoEmailDialog alertDialog = new ContactoEmailDialog();
+                alertDialog.show(fm, "ContactoEmailDialog");
+                Intent sendEmail = new Intent(android.content.Intent.ACTION_SEND);
+                sendEmail.setType("plain/text");
+
+                sendEmail.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"juan.alvarenga@uth.hn"});
+                startActivity(Intent.createChooser(sendEmail, "Email "));
+                return true;*/
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void logout(){
-        String url = Const.ip+"logout";
+    public void logout() {
+        String url = Const.ip + "logout";
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -155,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -169,17 +186,17 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(req);
     }
 
-    public void parser(JSONObject response){
+    public void parser(JSONObject response) {
         try {
-            if (response.getString("status").equals("exito")){
+            if (response.getString("status").equals("exito")) {
                 JSONArray dataMensaje = response.getJSONArray("mensajes");
 
-                Toast.makeText(getApplicationContext(), dataMensaje.get(0).toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
 
-            }else if (response.getString("status").equals("error")){
+            } else if (response.getString("status").equals("error")) {
                 JSONArray dataMensaje = response.getJSONArray("mensajes");
 
-                Toast.makeText(getApplicationContext(), dataMensaje.get(0).toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -188,21 +205,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void EliminaPreferencias(){
+    public void EliminaPreferencias() {
 
         SharedPreferences prefsEventos = this.getSharedPreferences("Eventos", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorEvetos = prefsEventos.edit();
 
-         SharedPreferences prefsMensajes = this.getSharedPreferences("Mensajes", Context.MODE_PRIVATE);
-         SharedPreferences.Editor editorMensajes = prefsMensajes.edit();
+        SharedPreferences prefsMensajes = this.getSharedPreferences("Mensajes", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorMensajes = prefsMensajes.edit();
 
         SharedPreferences prefsValidacion = this.getSharedPreferences("Validacion", Context.MODE_PRIVATE);
         SharedPreferences.Editor editosValidacion = prefsValidacion.edit();
 
-        SharedPreferences prefsCuenta= this.getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
+        SharedPreferences prefsCuenta = this.getSharedPreferences("MiCuenta", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorCuenta = prefsCuenta.edit();
 
-        SharedPreferences prefsAlumno= this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
+        SharedPreferences prefsAlumno = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
 
         editorEvetos.clear();

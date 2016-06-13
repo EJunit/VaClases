@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -158,8 +157,7 @@ public class ValidacionClasesDialog extends DialogFragment {
             public void onClick(View v) {
 
                 new AlertDialog.Builder(getContext()).setTitle("Confirmación")
-                        .setMessage("¿Deséas confirmar tus respuestas?, no podras cambiarlas luego, recuerda que las casillas" +
-                                "que no marques, se tomaran como días en los que no hubo clases.")
+                        .setMessage("¿Deseas confirmar tus respuestas? No podrás cambiarlas luego, recuerda que las casillas que no marques, se tomaran como días en los que no hubo clases.")
                         .setIcon(R.drawable.info_dialog)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
@@ -236,7 +234,7 @@ public class ValidacionClasesDialog extends DialogFragment {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("Error de consulta", error.toString());
+                dialog.hide();
             }
         }) {
             @Override
@@ -302,7 +300,6 @@ public class ValidacionClasesDialog extends DialogFragment {
                     ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            Log.i("Valor check enevnto", String.valueOf(buttonView.isChecked()));
                             try {
                                 if (buttonView.isChecked()) {
                                     obj.put(finalId_valor, "1");

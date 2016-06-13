@@ -1,6 +1,5 @@
 package hn.uth.hackaton.Login;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,17 +27,13 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 import hn.uth.hackaton.Const;
 import hn.uth.hackaton.R;
 
 public class FullScreenRegistro extends DialogFragment {
 
-    private EditText edtUsername;
-    private EditText edtTelefono;
-    private EditText edtTelefono2;
     ProgressDialog dialog;
+    EditText edtUsername, edtTelefono, edtTelefono2;
 
     public FullScreenRegistro() {
         // Constructor publico vacio
@@ -90,57 +84,46 @@ public class FullScreenRegistro extends DialogFragment {
             case android.R.id.home:
                 break;
             case R.id.action_save:
-                try {
-                    consulta();
-                } catch (Exception ignored) {
-                    //consulta();
+                String username = edtUsername.getText().toString().trim();
+                String usertel = edtTelefono.getText().toString().trim();
+                String usertel2 = edtTelefono2.getText().toString().trim();
+
+                if (username.isEmpty() || usertel.isEmpty() || usertel2.isEmpty()) {
+                    Toast.makeText(getContext(), "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
+                } else if (!usertel2.equals(usertel)) {
+                    Toast.makeText(getContext(), "Los numeros telefonicos no son iguales", Toast.LENGTH_SHORT).show();
+                } else if (usertel.length() <= 7) {
+                    Toast.makeText(getContext(), "Ingrese un numero de telefono valido", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    dialog = ProgressDialog.show(getContext(), "", "Cargando contenido");
+                    String url = Const.ip + "registrar/" + username + "/" + usertel;
+
+                    JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            parser(response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            dialog.cancel();
+                            Toast.makeText(getContext(), "Error al conectarse al servidor, intente de nuevo", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    req.setRetryPolicy(new DefaultRetryPolicy(
+                            20000,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                    requestQueue.add(req);
                 }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressLint("NewApi")
-    public void consulta() {
-
-        final String username = edtUsername.getText().toString().trim();
-        final String usertel = edtTelefono.getText().toString().trim();
-        String usertel2 = edtTelefono2.getText().toString().trim();
-
-        if (username.isEmpty() || usertel.isEmpty() ) {
-            Toast.makeText(getContext(), "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
-        } else if (!Objects.equals(usertel, usertel2)) {
-            Toast.makeText(getContext(), "Los numeros telefonicos no son iguales", Toast.LENGTH_SHORT).show();
-        } else if (usertel.length() <= 7){
-            Toast.makeText(getContext(), "Ingrese un numero de telefono valido", Toast.LENGTH_SHORT).show();
-        }else {
-
-            dialog = ProgressDialog.show(getContext(), "", "Cargando contenido");
-            String url = Const.ip+"registrar/" + username + "/" + usertel;
-
-            JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    parser(response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    dialog.cancel();
-                    Log.i("Error registro", error.getMessage());
-                    Toast.makeText(getContext(), "Error al conectarse al servidor, intente de nuevo", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            req.setRetryPolicy(new DefaultRetryPolicy(
-                    15000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-            requestQueue.add(req);
-        }
     }
 
     public void parser(JSONObject response) {

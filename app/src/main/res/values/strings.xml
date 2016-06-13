@@ -12,7 +12,8 @@
     <string name="title_activity_configuration">Ajustes</string>
     <string name="title_activity_tutorial">TutorialActivity</string>
     <string name="title_intro_activity">Tutorial</string>
-    <string name="btnregistro">¿No tienes cuenta? Regístrate</string>
+    <string name="txt_registrate">¿No tienes cuenta?</string>
+    <string name="btnregistro">Regístrate</string>
     <string name="txtUser">Usuario</string>
     <string name="txtPass">Contraseña</string>
     <string name="txtLogin">Iniciciar sesión</string>
@@ -29,7 +30,7 @@
     <string name="btnCancelar">Cancelar</string>
     <string name="imgVaClases">VaClases</string>
     <string name="txtTituloValidacionClase">Marca los días en que hubo clases en tu centro educativo</string>
-    <string name="action_cambio_info">Información</string>
+    <string name="action_cambio_info">Comunicate con nosotros</string>
     <string name="txtNoAsistira">No Asistira</string>
     <string name="txtSiAsistira">Asistira</string>
     <string name="txtTituloDialogEvento">Confirma la participación de tu hijo al evento</string>
@@ -39,6 +40,13 @@
     <string name="n_mero_telef_nico">Número telefónico</string>
     <string name="confirme_su_n_mero_telef_nico">Confirme su número telefónico</string>
     <string name="identidad_de_su_hijo">Identidad de su hijo</string>
-    <string name="txt_bienvenida_login">Bienvenido a la plataforma VaClases, para poder ingresar en un futuro, su usuario sera su número de identidad, su password por default es su número telefónico, podra cambiarlo dentro de la plataforma si desea.</string>
+    <string name="txt_bienvenida_login">Bienvenido a la plataforma VaClases, para poder ingresar en un futuro,
+        su usuario sera su número de identidad, su contraseña será el número de telefono que ha ingresado,
+        podra cambiarlo dentro de la aplicación si desea.</string>
     <string name="registro_exitoso_a_la_plataforma">Registro exitoso a la plataforma</string>
+    <string name="asunto">Asunto</string>
+    <string name="redactar_mensaje">Redactar mensaje</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="enviar">Enviar</string>
+    <string name="ver_el_centro_educativo_de">Ver el centro educativo de...</string>
 </resources>

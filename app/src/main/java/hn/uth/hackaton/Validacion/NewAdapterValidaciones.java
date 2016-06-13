@@ -216,7 +216,7 @@ public class NewAdapterValidaciones extends RecyclerView.Adapter<RecyclerView.Vi
         prefs = mContext.getSharedPreferences(NUM_CUENTA, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("preguntas", preguntas);//preguntas
-        editor.putString("id_val", id_validacion);//codigo de validacio
+        editor.putString("id_val", id_validacion);//codigo de pregunta
         editor.putString("fechaP", fecha);
 
         editor.apply();

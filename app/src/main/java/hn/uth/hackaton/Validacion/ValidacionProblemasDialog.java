@@ -115,7 +115,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(getContext()).setTitle("Confirmación")
-                        .setMessage("¿Deséas confirmar tus respuestas?, no podras cambiarlas luego, recuerda que las casillas" +
+                        .setMessage("¿Deséas confirmar tus respuestas? No podras cambiarlas luego, recuerda que las casillas" +
                                 "que no marques, se tomaran como un 'No'.")
                         .setIcon(R.drawable.info_dialog)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -127,9 +127,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
                                 for (int a = 1; a <= obj.length(); a++) {
                                     try {
                                         String respuesta = String.valueOf(obj.get(String.valueOf(a)));
-                                        //SaveValidacion(respuesta, loadFechaProblema(), String.valueOf(a));
-
-                                        respuestas = respuestas + String.valueOf(a)+","+respuesta+","+loadFechaProblema()+";";
+                                        respuestas = respuestas + String.valueOf(a) + "," + respuesta + "," + loadFechaProblema() + ";";
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -165,15 +163,15 @@ public class ValidacionProblemasDialog extends DialogFragment {
         getActivity().finish();
     }
 
-   // public void SaveValidacion(String respuesta, String fecha, String index) {
-   public void SaveValidacion(String respuestas) {
-       final ProgressDialog dialog = ProgressDialog.show(getContext(), "", "Guardando...");
-       dialog.show();
+    // public void SaveValidacion(String respuesta, String fecha, String index) {
+    public void SaveValidacion(String respuestas) {
+        final ProgressDialog dialog = ProgressDialog.show(getContext(), "", "Guardando...");
+        dialog.show();
         String token = conf.getTokken().replace(" ", "");
 
-        String url = Const.ip+"api/confirma?token=" + token.replace("\n", "")+
-                "&validacion_id=" + loadIdValidacion()+"&alumno_id=" + loadIdentidadAlumno()+"&type=2"+
-                "&respuestas="+respuestas;
+        String url = Const.ip + "api/confirma?token=" + token.replace("\n", "") +
+                "&validacion_id=" + loadIdValidacion() + "&alumno_id=" + loadIdentidadAlumno() + "&type=2" +
+                "&respuestas=" + respuestas;
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -236,11 +234,12 @@ public class ValidacionProblemasDialog extends DialogFragment {
             try {
                 id_valor = String.valueOf(a);
                 JSONObject p = response.getJSONObject(String.valueOf(a));//esta seria la pregunta en el texto
-
                 TextView tx = new TextView(getContext());//Creamos el TextField de la pregunta
                 tx.setPadding(20, 20, 10, 10);
                 tx.setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
                 tx.setTypeface(robotoSlab_bold);
+
+                tx.setText(p.getString("mensaje"));
 
                 RadioGroup rg = new RadioGroup(getContext()); //Creamos el RadioGroup
                 rg.setOrientation(RadioGroup.HORIZONTAL);
@@ -249,62 +248,55 @@ public class ValidacionProblemasDialog extends DialogFragment {
                 RadioGroup contrasGrp = new RadioGroup(getContext());
                 contrasGrp.setOrientation(RadioGroup.VERTICAL);
 
-                try {
-                    // JSONObject infoJosn = response.getJSONObject(a);
+                for (i = 0; i < 2; i++) {
+                    rb[i] = new RadioButton(getContext());
+                    rg.addView(rb[i]);
 
-                    for (i = 0; i < 2; i++) {
-                        rb[i] = new RadioButton(getContext());
-                        rg.addView(rb[i]);
+                    switch (i) {
+                        case 0: {
+                            rb[i].setText("SI");
+                            rb[i].setTypeface(Roboto_Light);
+                            rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
+                            final String finalId_valor = id_valor;
+                            rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    //respuesta positiva a la pregunta
+                                    try {
+                                        obj.put(finalId_valor, "1");
 
-                        switch (i) {
-                            case 0: {
-                                rb[i].setText("SI");
-                                rb[i].setTypeface(Roboto_Light);
-                                rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
-                                final String finalId_valor = id_valor;
-                                rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        //respuesta positiva a la pregunta
-                                        try {
-                                            obj.put(finalId_valor, "1");
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                });
-                                break;
-                            }
-                            default: {
-                                rb[i].setText("NO");
-                                rb[i].setTypeface(Roboto_Light);
-                                final String finalId_valor = id_valor;
-                                rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
-                                rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        //respuesta negativa a la pregunta
-                                        try {
-                                            obj.put(finalId_valor, "0");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
-                                break;
-                            }
+                                }
+                            });
+                            break;
                         }
-
+                        default: {
+                            rb[i].setText("NO");
+                            rb[i].setTypeface(Roboto_Light);
+                            final String finalId_valor = id_valor;
+                            rb[i].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
+                            rb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    //respuesta negativa a la pregunta
+                                    try {
+                                        obj.put(finalId_valor, "0");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                            break;
+                        }
                     }
 
-                    tx.setText(p.getString("mensaje"));
-
-                    r.addView(tx);
-                    r.addView(rg);
-
-                } catch (JSONException ignored) {
                 }
+
+                r.addView(tx);
+                r.addView(rg);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

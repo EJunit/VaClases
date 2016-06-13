@@ -177,7 +177,7 @@ public class FragmentoEventos extends Fragment implements SwipeRefreshLayout.OnR
             };
 
             req2.setRetryPolicy(new DefaultRetryPolicy(
-                    12000,
+                    15000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

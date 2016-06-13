@@ -83,13 +83,8 @@ public class SeleccionHijoDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return createSeleccionHijoDialog();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         dialog = ProgressDialog.show(getContext(), "", "Cargando contenido");
+        return createSeleccionHijoDialog();
     }
 
     //Crea un diálogo con una lista de radios
@@ -105,7 +100,7 @@ public class SeleccionHijoDialog extends DialogFragment {
         r = (LinearLayout) v.findViewById(R.id.LinearHijo);
         conf = new Preferencias(getContext());
 
-        String url = Const.ip+"api/encargado?token=" + conf.getTokken();
+        String url = Const.ip + "api/encargado?token=" + conf.getTokken();
 
         JsonObjectRequest req = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -174,89 +169,54 @@ public class SeleccionHijoDialog extends DialogFragment {
                 JSONArray alumnos = infoData.getJSONArray("alumnos");
 
                 for (int a = 0; a < alumnos.length(); a++) {
-
                     try {
 
                         final RadioButton[] rb = new RadioButton[alumnos.length()];
 
                         RadioGroup rg = new RadioGroup(getContext()); //Creamos el RadioGroup
                         rg.setOrientation(RadioGroup.VERTICAL);
-                        rg.setPadding(30, 50, 10, 35);
+                        rg.setPadding(30, 30, 10, 20);
 
                         RadioGroup contrasGrp = new RadioGroup(getContext());
                         contrasGrp.setOrientation(RadioGroup.VERTICAL);
 
+                        final JSONObject infoAlumno = alumnos.getJSONObject(a);
+                        cantHijo = alumnos.length();
+                        rb[a] = new RadioButton(getContext());
+                        rg.addView(rb[a]);
 
-                        for (int b = 0; b < alumnos.length(); b++) {
+                        rb[a].setText(infoAlumno.getString("nombre"));
+                        rb[a].setTypeface(Roboto_Light);
+                        rb[a].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
 
-                            final JSONObject infoAlumno = alumnos.getJSONObject(b);
-                            cantHijo = alumnos.length();
-                            rb[b] = new RadioButton(getContext());
-                            rg.addView(rb[b]);
-
-                            if (infoAlumno.getString("nombre").equals(loadNombre())) {
-
-                                rb[b].setText(infoAlumno.getString("nombre"));
-                                rb[b].setTypeface(Roboto_Light);
-                                rb[b].setChecked(true);
-                                rb[b].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
-                                rb[b].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                                        if (isChecked) {
-
-                                            SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-                                            SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
-                                            editorAlumno.clear();
-                                            editorAlumno.apply();
-
-                                            try {
-                                                JSONObject infoEscuelaAlumno = infoAlumno.getJSONObject("centro_educativo");
-                                                //Log.i("tamaño hijo", String.valueOf(infoEscuelaAlumno.length()));
-                                                setNombreEscuela(infoEscuelaAlumno.getString("nombre"));
-                                                setNombreAlumno(infoAlumno.getString("nombre"));
-                                                setIdentidadAlumno(infoAlumno.getString("id"));
-                                                setEscuelaSelect(infoEscuelaAlumno.getString("codigo"));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-
-                                    }
-                                });
-                            } else {
-                                rb[b].setText(infoAlumno.getString("nombre"));
-                                rb[b].setTypeface(Roboto_Light);
-                                rb[b].setTextColor(ContextCompat.getColor(getContext(), R.color.letraPrimary));
-                                rb[b].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        if (isChecked) {
-
-                                            SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
-                                            SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
-                                            editorAlumno.clear();
-                                            editorAlumno.apply();
-
-                                            try {
-                                                JSONObject infoEscuelaAlumno = infoAlumno.getJSONObject("centro_educativo");
-                                                //Log.i("tamaño hijo", String.valueOf(infoEscuelaAlumno.length()));
-                                                setNombreEscuela(infoEscuelaAlumno.getString("nombre"));
-                                                setNombreAlumno(infoAlumno.getString("nombre"));
-                                                setIdentidadAlumno(infoAlumno.getString("id"));
-                                                setEscuelaSelect(infoEscuelaAlumno.getString("codigo"));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-
-                                        //  Toast.makeText(getContext(),"selecciono a: "+ finalId_valor,Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
+                        if (infoAlumno.getString("nombre").equals(loadNombre())) {
+                            rb[a].setChecked(true);
                         }
 
+                        rb[a].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                                if (isChecked) {
+
+                                    SharedPreferences prefsAlumno = getActivity().getSharedPreferences("alumno", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editorAlumno = prefsAlumno.edit();
+                                    editorAlumno.clear();
+                                    editorAlumno.apply();
+
+                                    try {
+                                        JSONObject infoEscuelaAlumno = infoAlumno.getJSONObject("centro_educativo");
+                                        setNombreEscuela(infoEscuelaAlumno.getString("nombre"));
+                                        setNombreAlumno(infoAlumno.getString("nombre"));
+                                        setIdentidadAlumno(infoAlumno.getString("id"));
+                                        setEscuelaSelect(infoEscuelaAlumno.getString("codigo"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+                        });
 
                         r.addView(rg);
 
@@ -264,7 +224,6 @@ public class SeleccionHijoDialog extends DialogFragment {
                     } catch (JSONException ignored) {
 
                     }
-
                 }
             }//llave que termina la condicion del status de exito
         } catch (JSONException e) {

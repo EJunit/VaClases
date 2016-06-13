@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -66,6 +67,9 @@ public class LoginActivity extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.edtpass);
         assert pass != null;
         pass.setTypeface(Roboto_Light);
+        TextView pregunta = (TextView) findViewById(R.id.txt_pregunta);
+        assert pregunta != null;
+        pregunta.setTypeface(Roboto_Light);
        /* TextView r = (TextView) findViewById(R.id.textView3);
         r.setTypeface(Roboto_Light);*/
 
@@ -122,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 byte[] data = KEY.getBytes("UTF-8");
                 conf.setCedulaPadre(username);
                 base64 = Base64.encodeToString(data, Base64.DEFAULT);
-                url = Const.ip+"login/" + username + "?password=" + base64;
+                url = Const.ip + "login/" + username + "?password=" + base64;
                 conf.setTokken(base64);
 
             } catch (UnsupportedEncodingException e) {
@@ -192,7 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.getString("status").equals("exito")) {
 
                     JSONObject encargado = response.getJSONObject("encargado");
-                    setPadreSelect(encargado.getString("nombre"),encargado.getString("identidad"));
+                    setPadreSelect(encargado.getString("nombre"), encargado.getString("identidad"));
                     JSONArray infoAlumno = encargado.getJSONArray("alumnos");
 
                     for (int a = 0; a < infoAlumno.length(); a++) {
@@ -202,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                         setIdentidadAlumno(infoJsonAlumno.getString("id"));
 
                         JSONObject infoJsonEscuela = infoJsonAlumno.getJSONObject("centro_educativo");
-                        setNombreEscuela(infoJsonEscuela.getString("nombre"),infoJsonEscuela.getString("codigo"));
+                        setNombreEscuela(infoJsonEscuela.getString("nombre"), infoJsonEscuela.getString("codigo"));
 
                         JSONObject infoJsonMuni = infoJsonEscuela.getJSONObject("municipio");
 
