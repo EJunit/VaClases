@@ -16,7 +16,7 @@
     <string name="btnregistro">Regístrate</string>
     <string name="txtUser">Usuario</string>
     <string name="txtPass">Contraseña</string>
-    <string name="txtLogin">Iniciciar sesión</string>
+    <string name="txtLogin">Iniciar sesión</string>
     <string name="txtOlvideLogin">¿Olvido su información de inicio de sesión?</string>
     <string name="btnOlvideLogin">Obten ayuda para iniciar sesión</string>
     <string name="guardar_pref">Cambiar</string>
@@ -49,4 +49,6 @@
     <string name="cancelar">Cancelar</string>
     <string name="enviar">Enviar</string>
     <string name="ver_el_centro_educativo_de">Ver el centro educativo de...</string>
+    <string name="action_email">Enviar Correo</string>
+    <string name="intentar_nuevamente">Intentar nuevamente</string>
 </resources>

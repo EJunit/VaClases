@@ -62,7 +62,7 @@ public class FragmentoTabs extends Fragment {
         //pestanas.getTabAt(1).setCustomView(new FragmentoMensaje(), getString(R.string.titulo_tab_mensaje));
     }
 
-    public class AdaptadorSecciones extends FragmentStatePagerAdapter {
+        public class AdaptadorSecciones extends FragmentStatePagerAdapter {
         private final List<Fragment> fragmentos = new ArrayList<>();
         private final List<String> titulosFragmentos = new ArrayList<>();
 

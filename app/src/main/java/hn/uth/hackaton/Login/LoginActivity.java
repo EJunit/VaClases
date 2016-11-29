@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegistroActivity.class));
+                    startActivity(new Intent(LoginActivity.this, RegistroActivity.class));
             }
         });
 
@@ -208,6 +208,8 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject infoJsonEscuela = infoJsonAlumno.getJSONObject("centro_educativo");
                         setNombreEscuela(infoJsonEscuela.getString("nombre"), infoJsonEscuela.getString("codigo"));
 
+                        setModalidad(infoJsonEscuela.getInt("modalidad"));
+
                         JSONObject infoJsonMuni = infoJsonEscuela.getJSONObject("municipio");
 
                         setNombreMunicipio(infoJsonMuni.getString("nombre"));
@@ -233,6 +235,14 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
+    private void setModalidad(int mod) {
+        SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("modalidad", String.valueOf(mod));
+        edit.apply();
+    }
+
 
     private void setPadreSelect(String nombre, String id) {
         SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);

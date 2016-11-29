@@ -59,7 +59,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<AdaptadorEventos.View
         }
 
         @Override
-        public void onClick(View v) {
+            public void onClick(View v) {
             clickListener.onClick(v, getAdapterPosition());
         }
     }

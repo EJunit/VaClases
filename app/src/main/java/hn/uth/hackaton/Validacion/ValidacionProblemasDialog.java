@@ -160,6 +160,7 @@ public class ValidacionProblemasDialog extends DialogFragment {
         Intent intent = new Intent(getContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.mainfadein, R.anim.splashfadeout);
         getActivity().finish();
     }
 

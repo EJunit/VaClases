@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,12 +34,21 @@ import hn.uth.hackaton.tutorial.IntroActivity;
 
 public class ControlActivity extends AppCompatActivity {
     Preferencias pref = new Preferencias(this);
+    Button intento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+        intento = (Button) findViewById(R.id.btnIntento);
         a();
+
+        intento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                a();
+            }
+        });
     }
 
     public void a() {
@@ -76,6 +87,7 @@ public class ControlActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(getApplicationContext(), "Ocurrio un problema de comunicacion, Intente de nuevo", Toast.LENGTH_SHORT).show();
+                    intento.setVisibility(View.VISIBLE);
                 }
             }) {
 

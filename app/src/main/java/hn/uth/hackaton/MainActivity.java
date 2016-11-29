@@ -49,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         return prefs.getString("codigo_escuela", " ");
     }
 
+    private String loadModalidad() {
+        SharedPreferences prefs = this.getSharedPreferences("alumno", Context.MODE_PRIVATE);
+        return prefs.getString("modalidad", String.valueOf(0));
+    }
+
     private String loadDepto() {
         SharedPreferences prefs = this.getSharedPreferences("departamento", Context.MODE_PRIVATE);
         return prefs.getString("depto", " ");
@@ -73,17 +78,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
-        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") ArrayList<String> channels = new ArrayList<>();
         String escuela = loadEscuela();
         String depto = loadDepto().replace(" ", "-").replace("é", "e").replace("á", "a").replace("í", "i").replace("ó", "o").replace("ú", "u");
         String muni = loadMuni().replace(" ", "-").replace("é", "e").replace("á", "a").replace("í", "i").replace("ó", "o").replace("ú", "u");
+        String modalidad = loadModalidad();
 
-        channels.add(escuela);
-        channels.add(depto);
-        channels.add(muni);
-        channels.add("honduras");
-
-        //registro de tags
         JSONObject tags = new JSONObject();
         try {
             tags.put("escuela", "id-" + escuela);
@@ -91,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             tags.put("municipio", muni.toLowerCase());
             tags.put("encargado", "id-" + loadIdPadre());
             tags.put("pais", "honduras");
+            tags.put("modalidad", modalidad);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -139,22 +139,21 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Es necesaria una conexión a internet para cerrar sesión", Toast.LENGTH_LONG).show();
                 }
                 break;
+            case R.id.action_email:
+                Intent sendEmail = new Intent(android.content.Intent.ACTION_SEND);
+                sendEmail.setType("plain/text");
+
+                sendEmail.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"denuncias@educatrachos.hn"});
+                sendEmail.putExtra(Intent.EXTRA_SUBJECT, "Consulta acerca de VaClases");
+                startActivity(Intent.createChooser(sendEmail, "Email "));
+                return true;
             case R.id.hijo: {
                 FragmentManager fm = this.getSupportFragmentManager();
                 SeleccionHijoDialog alertDialog = new SeleccionHijoDialog();
                 alertDialog.show(fm, "SeleccionHijoDialog");
                 return true;
             }
-            /*case R.id.action_info:
-                FragmentManager fm = this.getSupportFragmentManager();
-                ContactoEmailDialog alertDialog = new ContactoEmailDialog();
-                alertDialog.show(fm, "ContactoEmailDialog");
-                Intent sendEmail = new Intent(android.content.Intent.ACTION_SEND);
-                sendEmail.setType("plain/text");
 
-                sendEmail.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"juan.alvarenga@uth.hn"});
-                startActivity(Intent.createChooser(sendEmail, "Email "));
-                return true;*/
         }
 
         return super.onOptionsItemSelected(item);
@@ -198,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), dataMensaje.get(0).toString(), Toast.LENGTH_SHORT).show();
 
-
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -241,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
         tempList.add("escuela");
         tempList.add("departamento");
         tempList.add("municipio");
+        tempList.add("modalidad");
         OneSignal.deleteTags(tempList);
 
         logout();
